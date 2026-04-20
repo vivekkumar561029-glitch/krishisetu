@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Profile | Krishi Setu </title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body data-page="profile">
+  <main class="app-shell">
+    <section class="profile-card">
+      <div class="profile-topbar">
+        <div>
+          <p class="eyebrow">Krishi Setu </p>
+          <h1>My Profile</h1>
+        </div>
+        <button class="btn btn-edit" id="editProfileBtn" type="button" aria-label="Edit profile">
+          Edit
+        </button>
+      </div>
+
+      <div class="profile-hero">
+        <div class="avatar avatar-large" id="profilePhotoView">
+          <span class="avatar-initials" id="profileInitials">FB</span>
+        </div>
+        <h2 id="profileNameHeading">Your Name</h2>
+        <p id="profileUserTypeHeading">Profile details</p>
+      </div>
+
+      <div class="section-block">
+        <h3>Personal Details</h3>
+        <div class="details-grid">
+          <div class="detail-item">
+            <span>Full Name</span>
+            <strong id="viewFullName">-</strong>
+          </div>
+          <div class="detail-item">
+            <span>Date of Birth</span>
+            <strong id="viewDob">-</strong>
+          </div>
+          <div class="detail-item">
+            <span>Gender</span>
+            <strong id="viewGender">-</strong>
+          </div>
+          <div class="detail-item">
+            <span>Mobile Number</span>
+            <strong id="viewMobile">-</strong>
+          </div>
+          <div class="detail-item">
+            <span>State</span>
+            <strong id="viewState">-</strong>
+          </div>
+          <div class="detail-item">
+            <span>District</span>
+            <strong id="viewDistrict">-</strong>
+          </div>
+          <div class="detail-item detail-wide">
+            <span>Address Line</span>
+            <strong id="viewAddress">-</strong>
+          </div>
+          <div class="detail-item">
+            <span>User Type</span>
+            <strong id="viewUserType">-</strong>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-block conditional-view" id="farmerDetailsView" hidden>
+        <h3>Farmer Details</h3>
+        <div class="details-grid">
+          <div class="detail-item">
+            <span>Farmer Type</span>
+            <strong id="viewFarmerType">-</strong>
+          </div>
+          <div class="detail-item">
+            <span>Land Area</span>
+            <strong id="viewLandArea">-</strong>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-block conditional-view" id="buyerDetailsView" hidden>
+        <h3>Buyer Details</h3>
+        <div class="details-grid">
+          <div class="detail-item">
+            <span>Buyer Type</span>
+            <strong id="viewBuyerType">-</strong>
+          </div>
+          <div class="detail-item">
+            <span>Business Name</span>
+            <strong id="viewBusinessName">-</strong>
+          </div>
+          <div class="detail-item detail-wide">
+            <span>Business Address</span>
+            <strong id="viewBusinessAddress">-</strong>
+          </div>
+          <div class="detail-item">
+            <span>GST Number</span>
+            <strong id="viewGstNumber">-</strong>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-block">
+        <h3>Documents</h3>
+        <div class="details-grid">
+          <div class="detail-item">
+            <span>Document Type</span>
+            <strong id="viewDocumentType">-</strong>
+          </div>
+          <div class="detail-item detail-wide">
+            <span>Uploaded Document</span>
+            <div class="document-preview" id="viewDocumentPreview">No document uploaded</div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
