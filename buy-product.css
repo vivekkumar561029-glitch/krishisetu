@@ -1,0 +1,395 @@
+:root {
+  --bg: #f5f7f6;
+  --surface: #ffffff;
+  --surface-strong: #ffffff;
+  --text: #1b1b1b;
+  --text-soft: #6b7280;
+  --label: #374151;
+  --border: #d1d5db;
+  --border-strong: #22c55e;
+  --focus: #22c55e;
+  --focus-soft: rgba(34, 197, 94, 0.14);
+  --danger: #db4b67;
+  --success: #188848;
+  --button-start: #16a34a;
+  --button-end: #22c55e;
+  --shadow: 0 20px 45px rgba(46, 125, 50, 0.12);
+  --card-shadow: 0 20px 45px rgba(46, 125, 50, 0.12);
+  --radius-lg: 24px;
+  --radius-md: 16px;
+  --radius-sm: 14px;
+  --bg-color: #f5f7f6;
+  --card-color: #ffffff;
+  --card-strong-color: #ffffff;
+  --text-color: #1b1b1b;
+  --muted-text-color: #6b7280;
+  --primary-color: #2e7d32;
+  --primary-color-dark: #16a34a;
+  --border-color: #d1d5db;
+  --focus-ring: rgba(34, 197, 94, 0.14);
+  --field-bg: #ffffff;
+  --placeholder-color: #9ca3af;
+  --toggle-bg: rgba(255, 255, 255, 0.72);
+  --toggle-text: #1b1b1b;
+  --secondary-button-bg: rgba(255, 255, 255, 0.03);
+  --secondary-button-border: #d1d5db;
+  --upload-bg: rgba(255, 255, 255, 0.03);
+  --upload-hover: rgba(255, 255, 255, 0.08);
+  --dashed-border: rgba(209, 213, 219, 0.9);
+}
+
+body.dark-mode {
+  --bg: #07110a;
+  --surface: rgba(255, 255, 255, 0.05);
+  --surface-strong: rgba(255, 255, 255, 0.08);
+  --text: #ffffff;
+  --text-soft: #a1a1aa;
+  --label: #d1d5db;
+  --border: rgba(255, 255, 255, 0.15);
+  --border-strong: #22c55e;
+  --focus: #22c55e;
+  --focus-soft: rgba(34, 197, 94, 0.18);
+  --success: #86efac;
+  --button-start: #16a34a;
+  --button-end: #22c55e;
+  --shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  --card-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  --bg-color: #07110a;
+  --card-color: rgba(255, 255, 255, 0.05);
+  --card-strong-color: rgba(255, 255, 255, 0.08);
+  --text-color: #ffffff;
+  --muted-text-color: #a1a1aa;
+  --primary-color: #22c55e;
+  --primary-color-dark: #16a34a;
+  --border-color: rgba(255, 255, 255, 0.15);
+  --focus-ring: rgba(34, 197, 94, 0.18);
+  --field-bg: rgba(255, 255, 255, 0.08);
+  --placeholder-color: rgba(255, 255, 255, 0.5);
+  --toggle-bg: rgba(255, 255, 255, 0.1);
+  --toggle-text: #ffffff;
+  --secondary-button-bg: rgba(255, 255, 255, 0.03);
+  --secondary-button-border: rgba(255, 255, 255, 0.2);
+  --upload-bg: rgba(255, 255, 255, 0.03);
+  --upload-hover: rgba(255, 255, 255, 0.08);
+  --dashed-border: rgba(255, 255, 255, 0.2);
+}
+
+* {
+  box-sizing: border-box;
+  transition: all 0.3s ease;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: "Poppins", sans-serif;
+  color: var(--text-color);
+  background:
+    linear-gradient(rgba(255, 255, 255, 0.72), rgba(255, 255, 255, 0.78)),
+    url("watermark\ image.jpg") no-repeat center center / cover,
+    var(--bg-color);
+  position: relative;
+}
+
+body.dark-mode {
+  background:
+    linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.7)),
+    url("watermark\ image.jpg") no-repeat center center / cover,
+    var(--bg-color);
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  backdrop-filter: blur(8px);
+  pointer-events: none;
+}
+
+button,
+input,
+select {
+  font: inherit;
+}
+
+.page-shell {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 32px 16px;
+}
+
+.buy-card {
+  position: relative;
+  width: min(100%, 780px);
+  padding: 32px;
+  border: 1px solid rgba(215, 226, 216, 0.95);
+  border-radius: 16px;
+  background: var(--card-color);
+  box-shadow: var(--card-shadow);
+  backdrop-filter: blur(18px);
+  overflow: hidden;
+}
+
+body.dark-mode .buy-card {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(12px);
+}
+
+.theme-toggle-row {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 18px;
+}
+
+.theme-toggle {
+  width: 44px;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0;
+  border: 1px solid var(--border-color);
+  border-radius: 20px;
+  background: var(--toggle-bg);
+  color: var(--toggle-text);
+  font-size: 1.2rem;
+  line-height: 1;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+.theme-toggle:hover,
+.theme-toggle:focus-visible {
+  border-color: var(--primary-color);
+  transform: translateY(-1px);
+}
+
+.card-glow {
+  position: absolute;
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  filter: blur(8px);
+  opacity: 0.55;
+  pointer-events: none;
+}
+
+.card-glow-left {
+  top: -120px;
+  left: -80px;
+  background: radial-gradient(circle, rgba(76, 175, 80, 0.25), transparent 70%);
+}
+
+.card-glow-right {
+  right: -90px;
+  bottom: -120px;
+  background: radial-gradient(circle, rgba(141, 198, 63, 0.24), transparent 70%);
+}
+
+.card-header,
+.buy-form {
+  position: relative;
+  z-index: 1;
+}
+
+.eyebrow {
+  margin: 0 0 10px;
+  color: var(--primary-color);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.card-header h1 {
+  margin: 0;
+  font-size: clamp(2rem, 4vw, 2.8rem);
+  line-height: 1.08;
+  color: var(--text-color);
+}
+
+.subtitle {
+  margin: 12px 0 0;
+  color: var(--muted-text-color);
+  line-height: 1.7;
+}
+
+.buy-form {
+  margin-top: 28px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.field-group-full {
+  grid-column: 1 / -1;
+}
+
+label {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--label);
+}
+
+input,
+select {
+  width: 100%;
+  min-height: 56px;
+  padding: 15px 16px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  background: var(--field-bg);
+  color: var(--text-color);
+  outline: none;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease, background-color 0.25s ease;
+}
+
+select {
+  appearance: none;
+}
+
+.select-wrap {
+  position: relative;
+}
+
+.select-wrap::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: 18px;
+  width: 10px;
+  height: 10px;
+  border-right: 2px solid color-mix(in srgb, var(--text-color) 60%, transparent 40%);
+  border-bottom: 2px solid color-mix(in srgb, var(--text-color) 60%, transparent 40%);
+  transform: translateY(-65%) rotate(45deg);
+  pointer-events: none;
+}
+
+.quantity-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+input::placeholder {
+  color: var(--placeholder-color);
+}
+
+input:focus,
+select:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 5px var(--focus-ring);
+  transform: translateY(-1px);
+  background: var(--card-strong-color);
+}
+
+.is-invalid {
+  border-color: rgba(219, 75, 103, 0.65);
+  box-shadow: 0 0 0 5px rgba(219, 75, 103, 0.12);
+}
+
+.helper-text {
+  min-height: 1.25em;
+  margin: 0;
+  color: var(--muted-text-color);
+  font-size: 0.86rem;
+}
+
+.error-text {
+  min-height: 1.25em;
+  margin: 0;
+  color: var(--danger);
+  font-size: 0.86rem;
+}
+
+.feedback-row {
+  margin: 4px 0 18px;
+}
+
+.form-message {
+  margin: 0;
+  padding: 0;
+  border-radius: var(--radius-md);
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: transparent;
+  transition: padding 0.25s ease, background-color 0.25s ease, color 0.25s ease, transform 0.25s ease;
+}
+
+.form-message.visible {
+  padding: 14px 16px;
+  transform: translateY(0);
+}
+
+.form-message.success {
+  background: rgba(29, 155, 108, 0.12);
+  color: var(--success);
+}
+
+.form-message.error {
+  background: rgba(219, 75, 103, 0.1);
+  color: var(--danger);
+}
+
+.submit-btn {
+  width: 100%;
+  min-height: 58px;
+  border: 0;
+  border-radius: 16px;
+  background: linear-gradient(135deg, var(--primary-color), var(--primary-color-dark));
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  box-shadow: 0 18px 36px rgba(46, 125, 50, 0.24);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, filter 0.25s ease;
+}
+
+.submit-btn:hover,
+.submit-btn:focus-visible {
+  transform: translateY(-2px) scale(1.01);
+  box-shadow: 0 22px 40px rgba(46, 125, 50, 0.34);
+  filter: saturate(1.08) brightness(1.05);
+}
+
+body.dark-mode .submit-btn {
+  filter: brightness(0.98);
+}
+
+.submit-btn:active {
+  transform: translateY(0) scale(0.995);
+}
+
+@media (max-width: 640px) {
+  .buy-card {
+    padding: 24px 18px;
+    border-radius: 20px;
+  }
+
+  .theme-toggle-row {
+    margin-bottom: 14px;
+  }
+
+  .form-grid,
+  .quantity-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .subtitle {
+    font-size: 0.94rem;
+  }
+}

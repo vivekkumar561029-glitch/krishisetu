@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KrishiSetu | Search Order</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="buy-product.css">
+</head>
+<body>
+  <main class="page-shell">
+    <section class="buy-card">
+      <div class="theme-toggle-row">
+        <button type="button" id="themeToggle" class="theme-toggle" aria-label="Toggle color theme" aria-pressed="false">🌙</button>
+      </div>
+      <div class="card-glow card-glow-left" aria-hidden="true"></div>
+      <div class="card-glow card-glow-right" aria-hidden="true"></div>
+
+      <div class="card-header">
+        <p class="eyebrow">Agriculture Search Form</p>
+        <h1>Search Order</h1>
+        <p class="subtitle">Search agriculture products with dynamic categories, product names, varieties, and quantity range.</p>
+      </div>
+
+      <form id="buyProductForm" class="buy-form" novalidate>
+        <div class="form-grid">
+          <div class="field-group">
+            <label for="productType">Type of Product</label>
+            <div class="select-wrap">
+              <select id="productType" name="productType" required>
+                <option value="">Select Product Type</option>
+                <option value="fruits">Fruits</option>
+                <option value="vegetables">Vegetables</option>
+                <option value="grains">Grains</option>
+                <option value="pulses">Pulses</option>
+                <option value="spices">Spices</option>
+              </select>
+            </div>
+            <p class="error-text" data-error-for="productType"></p>
+          </div>
+
+          <div class="field-group">
+            <label for="productName">Product Name</label>
+            <div class="select-wrap">
+              <select id="productName" name="productName" required disabled>
+                <option value="">Select product type first</option>
+              </select>
+            </div>
+            <p class="error-text" data-error-for="productName"></p>
+          </div>
+
+          <div class="field-group field-group-full">
+            <label for="subGroup">Sub Group / Variety</label>
+            <div class="select-wrap">
+              <select id="subGroup" name="subGroup" required disabled>
+                <option value="">Select product first</option>
+              </select>
+            </div>
+            <p class="error-text" data-error-for="subGroup"></p>
+          </div>
+
+          <div class="field-group field-group-full">
+            <label>Quantity Range (in kg)</label>
+            <div class="quantity-grid">
+              <input id="minQuantity" name="minQuantity" type="number" min="0" step="0.01" inputmode="decimal" placeholder="Minimum Quantity (kg)" required>
+              <input id="maxQuantity" name="maxQuantity" type="number" min="0" step="0.01" inputmode="decimal" placeholder="Maximum Quantity (kg)" required>
+            </div>
+            <p class="helper-text">Only numeric values are allowed. Minimum quantity should not exceed maximum quantity.</p>
+            <p class="error-text" data-error-for="quantityRange"></p>
+          </div>
+        </div>
+
+        <div class="feedback-row">
+          <p id="formMessage" class="form-message" aria-live="polite"></p>
+        </div>
+
+        <button type="submit" class="submit-btn">Search Order</button>
+      </form>
+    </section>
+  </main>
+
+  <script src="buy-product.js"></script>
+</body>
+</html>
