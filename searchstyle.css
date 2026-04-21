@@ -1,0 +1,157 @@
+/* RESET */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+  transition: all 0.3s ease;
+}
+
+/* 🌾 BACKGROUND IMAGE */
+body.light, body.dark {
+  background: url('./backkkkk.jpeg') no-repeat center/cover;
+}
+
+/* OVERLAY */
+body.dark::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+ background: rgba(0, 0, 0, 0.6);
+  z-index: -1;
+}
+
+body.light::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: rgba(18, 4, 79, 0.3);
+  z-index: -1;
+}
+
+/* TOPBAR */
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px 40px;
+  color: rgb(9, 52, 29);
+}
+body.dark .topbar {
+  color: #f1f1f1;
+}
+
+/* CONTAINER */
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 85vh;
+}
+
+/* CARD */
+.card {
+  width: 400px;
+  padding: 30px;
+  border-radius: 20px;
+  backdrop-filter: blur(15px);
+}
+
+/* DARK CARD */
+body.dark .card {
+  background: rgba(45, 36, 36, 0.7);
+  color: white;
+}
+
+
+/* LIGHT CARD */
+body.light .card {
+  background: rgb(255, 255, 255);
+  color: #333333e4;
+}
+
+/* TEXT */
+.card h1 {
+  text-align: center;
+  margin-bottom: 10px;
+ 
+}
+
+.card p {
+  text-align: center;
+  margin-bottom: 25px;
+  
+}
+body.light .input-group label {
+  color: #333;
+}
+
+body.dark .input-group label {
+  color: #ddd;
+}
+.input-group {
+  margin-bottom: 20px; /* space between groups */
+}
+
+.input-group label {
+  display: block;
+  margin-bottom: 6px; /* space between label & input */
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 14px 20px;
+  border-radius: 50px;
+  border: 1px solid #dfe1e5;
+  font-size: 16px;
+  outline: none;
+  transition: all 0.3s ease;
+  margin: 0; /* REMOVE extra margin */
+}
+
+body.dark .input-group input {
+  background: rgba(255,255,255,0.08);
+  color: white;
+  border: 1px solid rgba(255,255,255,0.2);
+}
+body.light .input-group input {
+  background: white;
+  color: #333;
+}
+.input-group input::placeholder {
+  color: #888;
+}
+
+body.dark .input-group input::placeholder {
+  color: #bbb;
+}
+
+
+
+
+.input-group input:focus {
+  border: 1px solid transparent;
+  box-shadow: 0 0 10px rgba(66, 133, 244, 0.5);
+  transform: scale(1.02);
+}
+
+/* BUTTON */
+.search-btn {
+  width: 100%;
+  padding: 12px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+}
+
+/* DARK BUTTON */
+body.dark .search-btn {
+  background: linear-gradient(135deg, #56ab2f, #a8e063);
+}
+
+/* LIGHT BUTTON */
+body.light .search-btn {
+  background: linear-gradient(135deg, #4facfe, #00f2fe);
+  color: white;
+}
