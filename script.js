@@ -1,736 +1,395 @@
-const PROFILE_STORAGE_KEY = "farmerBuyerProfile";
-const DEMO_OTP = "123456";
+const storageKey = "agri_market_items_v1";
 
-const districtMap = {
-  "Andaman and Nicobar Islands": ["Nicobar", "North and Middle Andaman", "South Andaman"],
-  "Andhra Pradesh": ["Alluri Sitharama Raju", "Anakapalli", "Ananthapuramu", "Annamayya", "Bapatla", "Chittoor", "Dr. B.R. Ambedkar Konaseema", "East Godavari", "Eluru", "Guntur", "Kakinada", "Krishna", "Kurnool", "Nandyal", "NTR", "Palnadu", "Parvathipuram Manyam", "Prakasam", "Sri Potti Sriramulu Nellore", "Sri Sathya Sai", "Srikakulam", "Tirupati", "Visakhapatnam", "Vizianagaram", "West Godavari", "YSR Kadapa"],
-  "Arunachal Pradesh": ["Anjaw", "Changlang", "Dibang Valley", "East Kameng", "East Siang", "Kamle", "Kra Daadi", "Kurung Kumey", "Lepa Rada", "Lohit", "Longding", "Lower Dibang Valley", "Lower Siang", "Lower Subansiri", "Namsai", "Pakke-Kessang", "Papum Pare", "Shi Yomi", "Siang", "Tawang", "Tirap", "Upper Siang", "Upper Subansiri", "West Kameng", "West Siang"],
-  "Assam": ["Baksa", "Barpeta", "Biswanath", "Bongaigaon", "Cachar", "Charaideo", "Chirang", "Darrang", "Dhemaji", "Dhubri", "Dibrugarh", "Dima Hasao", "Goalpara", "Golaghat", "Hailakandi", "Hojai", "Jorhat", "Kamrup", "Kamrup Metropolitan", "Karbi Anglong", "Karimganj", "Kokrajhar", "Lakhimpur", "Majuli", "Morigaon", "Nagaon", "Nalbari", "Sivasagar", "Sonitpur", "South Salmara-Mankachar", "Tamulpur", "Tinsukia", "Udalguri", "West Karbi Anglong"],
-  "Bihar": ["Araria", "Arwal", "Aurangabad", "Banka", "Begusarai", "Bhagalpur", "Bhojpur", "Buxar", "Darbhanga", "East Champaran", "Gaya", "Gopalganj", "Jamui", "Jehanabad", "Kaimur", "Katihar", "Khagaria", "Kishanganj", "Lakhisarai", "Madhepura", "Madhubani", "Munger", "Muzaffarpur", "Nalanda", "Nawada", "Patna", "Purnia", "Rohtas", "Saharsa", "Samastipur", "Saran", "Sheikhpura", "Sheohar", "Sitamarhi", "Siwan", "Supaul", "Vaishali", "West Champaran"],
-  "Chandigarh": ["Chandigarh"],
-  "Chhattisgarh": ["Balod", "Baloda Bazar", "Balrampur-Ramanujganj", "Bastar", "Bemetara", "Bijapur", "Bilaspur", "Dantewada", "Dhamtari", "Durg", "Gariaband", "Gaurela-Pendra-Marwahi", "Janjgir-Champa", "Jashpur", "Kabirdham", "Kanker", "Khairagarh-Chhuikhadan-Gandai", "Kondagaon", "Korba", "Korea", "Mahasamund", "Manendragarh-Chirmiri-Bharatpur", "Mohla-Manpur-Ambagarh Chowki", "Mungeli", "Narayanpur", "Raigarh", "Raipur", "Rajnandgaon", "Sakti", "Sarangarh-Bilaigarh", "Sukma", "Surajpur", "Surguja"],
-  "Dadra and Nagar Haveli and Daman and Diu": ["Dadra and Nagar Haveli", "Daman", "Diu"],
-  "Delhi": ["Central Delhi", "East Delhi", "New Delhi", "North Delhi", "North East Delhi", "North West Delhi", "Shahdara", "South Delhi", "South East Delhi", "South West Delhi", "West Delhi"],
-  "Goa": ["North Goa", "South Goa"],
-  "Gujarat": ["Ahmedabad", "Amreli", "Anand", "Aravalli", "Banaskantha", "Bharuch", "Bhavnagar", "Botad", "Chhota Udaipur", "Dahod", "Dang", "Devbhoomi Dwarka", "Gandhinagar", "Gir Somnath", "Jamnagar", "Junagadh", "Kheda", "Kutch", "Mahisagar", "Mehsana", "Morbi", "Narmada", "Navsari", "Panchmahal", "Patan", "Porbandar", "Rajkot", "Sabarkantha", "Surat", "Surendranagar", "Tapi", "Vadodara", "Valsad"],
-  "Haryana": ["Ambala", "Bhiwani", "Charkhi Dadri", "Faridabad", "Fatehabad", "Gurugram", "Hisar", "Jhajjar", "Jind", "Kaithal", "Karnal", "Kurukshetra", "Mahendragarh", "Nuh", "Palwal", "Panchkula", "Panipat", "Rewari", "Rohtak", "Sirsa", "Sonipat", "Yamunanagar"],
-  "Himachal Pradesh": ["Bilaspur", "Chamba", "Hamirpur", "Kangra", "Kinnaur", "Kullu", "Lahaul and Spiti", "Mandi", "Shimla", "Sirmaur", "Solan", "Una"],
-  "Jammu and Kashmir": ["Anantnag", "Bandipora", "Baramulla", "Budgam", "Doda", "Ganderbal", "Jammu", "Kathua", "Kishtwar", "Kulgam", "Kupwara", "Poonch", "Pulwama", "Rajouri", "Ramban", "Reasi", "Samba", "Shopian", "Srinagar", "Udhampur"],
-  "Jharkhand": ["Bokaro", "Chatra", "Deoghar", "Dhanbad", "Dumka", "East Singhbhum", "Garhwa", "Giridih", "Godda", "Gumla", "Hazaribagh", "Jamtara", "Khunti", "Koderma", "Latehar", "Lohardaga", "Pakur", "Palamu", "Ramgarh", "Ranchi", "Sahibganj", "Seraikela Kharsawan", "Simdega", "West Singhbhum"],
-  "Karnataka": ["Bagalkot", "Ballari", "Belagavi", "Bengaluru Rural", "Bengaluru Urban", "Bidar", "Chamarajanagar", "Chikkaballapur", "Chikkamagaluru", "Chitradurga", "Dakshina Kannada", "Davanagere", "Dharwad", "Gadag", "Hassan", "Haveri", "Kalaburagi", "Kodagu", "Kolar", "Koppal", "Mandya", "Mysuru", "Raichur", "Ramanagara", "Shivamogga", "Tumakuru", "Udupi", "Uttara Kannada", "Vijayanagara", "Vijayapura", "Yadgir"],
-  "Kerala": ["Alappuzha", "Ernakulam", "Idukki", "Kannur", "Kasaragod", "Kollam", "Kottayam", "Kozhikode", "Malappuram", "Palakkad", "Pathanamthitta", "Thiruvananthapuram", "Thrissur", "Wayanad"],
-  "Ladakh": ["Kargil", "Leh"],
-  "Lakshadweep": ["Lakshadweep"],
-  "Madhya Pradesh": ["Agar Malwa", "Alirajpur", "Anuppur", "Ashoknagar", "Balaghat", "Barwani", "Betul", "Bhind", "Bhopal", "Burhanpur", "Chhatarpur", "Chhindwara", "Damoh", "Datia", "Dewas", "Dhar", "Dindori", "Guna", "Gwalior", "Harda", "Indore", "Jabalpur", "Jhabua", "Katni", "Khandwa", "Khargone", "Maihar", "Mandla", "Mandsaur", "Mauganj", "Morena", "Narmadapuram", "Narsinghpur", "Neemuch", "Niwari", "Pandhurna", "Panna", "Raisen", "Rajgarh", "Ratlam", "Rewa", "Sagar", "Satna", "Sehore", "Seoni", "Shahdol", "Shajapur", "Sheopur", "Shivpuri", "Sidhi", "Singrauli", "Tikamgarh", "Ujjain", "Umaria", "Vidisha"],
-  "Maharashtra": ["Ahmednagar", "Akola", "Amravati", "Beed", "Bhandara", "Buldhana", "Chandrapur", "Chhatrapati Sambhajinagar", "Dharashiv", "Dhule", "Gadchiroli", "Gondia", "Hingoli", "Jalgaon", "Jalna", "Kolhapur", "Latur", "Mumbai City", "Mumbai Suburban", "Nagpur", "Nanded", "Nandurbar", "Nashik", "Palghar", "Parbhani", "Pune", "Raigad", "Ratnagiri", "Sangli", "Satara", "Sindhudurg", "Solapur", "Thane", "Wardha", "Washim", "Yavatmal"],
-  "Manipur": ["Bishnupur", "Chandel", "Churachandpur", "Imphal East", "Imphal West", "Jiribam", "Kakching", "Kamjong", "Kangpokpi", "Noney", "Pherzawl", "Senapati", "Tamenglong", "Tengnoupal", "Thoubal", "Ukhrul"],
-  "Meghalaya": ["East Garo Hills", "East Jaintia Hills", "East Khasi Hills", "Eastern West Khasi Hills", "North Garo Hills", "Ri Bhoi", "South Garo Hills", "South West Garo Hills", "South West Khasi Hills", "West Garo Hills", "West Jaintia Hills", "West Khasi Hills"],
-  "Mizoram": ["Aizawl", "Champhai", "Hnahthial", "Khawzawl", "Kolasib", "Lawngtlai", "Lunglei", "Mamit", "Saitual", "Serchhip", "Siaha"],
-  "Nagaland": ["Chumoukedima", "Dimapur", "Kiphire", "Kohima", "Longleng", "Mokokchung", "Mon", "Niuland", "Noklak", "Peren", "Phek", "Shamator", "Tseminyu", "Tuensang", "Wokha", "Zunheboto"],
-  "Odisha": ["Angul", "Balangir", "Balasore", "Bargarh", "Bhadrak", "Boudh", "Cuttack", "Deogarh", "Dhenkanal", "Gajapati", "Ganjam", "Jagatsinghpur", "Jajpur", "Jharsuguda", "Kalahandi", "Kandhamal", "Kendrapara", "Keonjhar", "Khordha", "Koraput", "Malkangiri", "Mayurbhanj", "Nabarangpur", "Nayagarh", "Nuapada", "Puri", "Rayagada", "Sambalpur", "Subarnapur", "Sundargarh"],
-  "Puducherry": ["Karaikal", "Mahe", "Puducherry", "Yanam"],
-  "Punjab": ["Amritsar", "Barnala", "Bathinda", "Faridkot", "Fatehgarh Sahib", "Fazilka", "Ferozepur", "Gurdaspur", "Hoshiarpur", "Jalandhar", "Kapurthala", "Ludhiana", "Malerkotla", "Mansa", "Moga", "Mohali", "Muktsar", "Pathankot", "Patiala", "Rupnagar", "Sangrur", "Shaheed Bhagat Singh Nagar", "Tarn Taran"],
-  "Rajasthan": ["Ajmer", "Alwar", "Anupgarh", "Balotra", "Banswara", "Baran", "Barmer", "Beawar", "Bharatpur", "Bhilwara", "Bikaner", "Bundi", "Chittorgarh", "Churu", "Dausa", "Deeg", "Didwana-Kuchaman", "Dholpur", "Dudu", "Dungarpur", "Gangapur City", "Hanumangarh", "Jaipur", "Jaipur Rural", "Jaisalmer", "Jalore", "Jhalawar", "Jhunjhunu", "Jodhpur", "Jodhpur Rural", "Karauli", "Kekri", "Khairthal-Tijara", "Kota", "Kotputli-Behror", "Nagaur", "Neem Ka Thana", "Pali", "Phalodi", "Pratapgarh", "Rajsamand", "Salumbar", "Sanchore", "Sawai Madhopur", "Shahpura", "Sikar", "Sirohi", "Sri Ganganagar", "Tonk", "Udaipur"],
-  "Sikkim": ["Gangtok", "Gyalshing", "Mangan", "Namchi", "Pakyong", "Soreng"],
-  "Tamil Nadu": ["Ariyalur", "Chengalpattu", "Chennai", "Coimbatore", "Cuddalore", "Dharmapuri", "Dindigul", "Erode", "Kallakurichi", "Kancheepuram", "Kanniyakumari", "Karur", "Krishnagiri", "Madurai", "Mayiladuthurai", "Nagapattinam", "Namakkal", "Nilgiris", "Perambalur", "Pudukkottai", "Ramanathapuram", "Ranipet", "Salem", "Sivaganga", "Tenkasi", "Thanjavur", "Theni", "Thoothukudi", "Tiruchirappalli", "Tirunelveli", "Tirupathur", "Tiruppur", "Tiruvallur", "Tiruvannamalai", "Tiruvarur", "Vellore", "Viluppuram", "Virudhunagar"],
-  "Telangana": ["Adilabad", "Bhadradri Kothagudem", "Hanumakonda", "Hyderabad", "Jagtial", "Jangaon", "Jayashankar Bhupalpally", "Jogulamba Gadwal", "Kamareddy", "Karimnagar", "Khammam", "Kumuram Bheem Asifabad", "Mahabubabad", "Mahabubnagar", "Mancherial", "Medak", "Medchal-Malkajgiri", "Mulugu", "Nagarkurnool", "Nalgonda", "Narayanpet", "Nirmal", "Nizamabad", "Peddapalli", "Rajanna Sircilla", "Rangareddy", "Sangareddy", "Siddipet", "Suryapet", "Vikarabad", "Wanaparthy", "Warangal", "Yadadri Bhuvanagiri"],
-  "Tripura": ["Dhalai", "Gomati", "Khowai", "North Tripura", "Sepahijala", "South Tripura", "Unakoti", "West Tripura"],
-  "Uttar Pradesh": ["Agra", "Aligarh", "Ambedkar Nagar", "Amethi", "Amroha", "Auraiya", "Ayodhya", "Azamgarh", "Baghpat", "Bahraich", "Ballia", "Balrampur", "Banda", "Barabanki", "Bareilly", "Basti", "Bhadohi", "Bijnor", "Budaun", "Bulandshahr", "Chandauli", "Chitrakoot", "Deoria", "Etah", "Etawah", "Farrukhabad", "Fatehpur", "Firozabad", "Gautam Buddha Nagar", "Ghaziabad", "Ghazipur", "Gonda", "Gorakhpur", "Hamirpur", "Hapur", "Hardoi", "Hathras", "Jalaun", "Jaunpur", "Jhansi", "Kannauj", "Kanpur Dehat", "Kanpur Nagar", "Kasganj", "Kaushambi", "Kheri", "Kushinagar", "Lalitpur", "Lucknow", "Maharajganj", "Mahoba", "Mainpuri", "Mathura", "Mau", "Meerut", "Mirzapur", "Moradabad", "Muzaffarnagar", "Pilibhit", "Pratapgarh", "Prayagraj", "Raebareli", "Rampur", "Saharanpur", "Sambhal", "Sant Kabir Nagar", "Shahjahanpur", "Shamli", "Shravasti", "Siddharthnagar", "Sitapur", "Sonbhadra", "Sultanpur", "Unnao", "Varanasi"],
-  "Uttarakhand": ["Almora", "Bageshwar", "Chamoli", "Champawat", "Dehradun", "Haridwar", "Nainital", "Pauri Garhwal", "Pithoragarh", "Rudraprayag", "Tehri Garhwal", "Udham Singh Nagar", "Uttarkashi"],
-  "West Bengal": ["Alipurduar", "Bankura", "Birbhum", "Cooch Behar", "Dakshin Dinajpur", "Darjeeling", "Hooghly", "Howrah", "Jalpaiguri", "Jhargram", "Kalimpong", "Kolkata", "Malda", "Murshidabad", "Nadia", "North 24 Parganas", "Paschim Bardhaman", "Paschim Medinipur", "Purba Bardhaman", "Purba Medinipur", "Purulia", "South 24 Parganas", "Uttar Dinajpur"]
+const elements = {
+  form: document.getElementById("productForm"),
+  imageInput: document.getElementById("productImage"),
+  uploadPlaceholder: document.getElementById("uploadPlaceholder"),
+  previewImage: document.getElementById("previewImage"),
+  imageMeta: document.getElementById("imageMeta"),
+  progressFill: document.getElementById("progressFill"),
+  feedbackMessage: document.getElementById("feedbackMessage"),
+  recordsList: document.getElementById("recordsList"),
+  averagePrice: document.getElementById("averagePrice"),
+  projectedValue: document.getElementById("projectedValue"),
+  minimumMatch: document.getElementById("minimumMatch"),
+  resetButton: document.getElementById("resetButton"),
+  clearStorageButton: document.getElementById("clearStorageButton"),
+  submitButton: document.getElementById("submitButton"),
 };
 
-const defaultProfile = {
-  fullName: "",
-  dob: "",
-  gender: "",
-  mobile: "",
-  mobileVerified: false,
-  state: "",
-  district: "",
-  address: "",
-  userType: "",
-  farmerType: "",
-  landArea: "",
-  landUnit: "",
-  buyerType: "",
-  businessName: "",
-  businessAddress: "",
-  gstNumber: "",
-  documentType: "",
-  documentName: "",
-  documentData: "",
-  documentMime: "application/pdf",
-  profilePhoto: ""
+const fieldRefs = {
+  productType: document.getElementById("productType"),
+  productName: document.getElementById("productName"),
+  quantity: document.getElementById("quantity"),
+  quantityUnit: document.getElementById("quantityUnit"),
+  priceMin: document.getElementById("priceMin"),
+  priceMax: document.getElementById("priceMax"),
+  minSellAmount: document.getElementById("minSellAmount"),
+  notes: document.getElementById("notes"),
 };
 
-let otpSeconds = 30;
-let otpInterval = null;
-let originalMobile = "";
-let selectedDocumentData = "";
-let selectedDocumentMime = "";
-let selectedDocumentName = "";
-let currentProfilePhoto = "";
+let selectedImageData = null;
 
-document.addEventListener("DOMContentLoaded", () => {
-  const page = document.body.dataset.page;
+const backendService = {
+  async processItem(payload) {
+    await simulateDelay(450);
 
-  if (page === "profile") {
-    initProfilePage();
-  }
+    const savedItems = getSavedItems();
+    const processedItem = {
+      id: crypto.randomUUID ? crypto.randomUUID() : String(Date.now()),
+      createdAt: new Date().toISOString(),
+      ...payload,
+      analytics: {
+        averagePrice: Math.round((payload.priceMin + payload.priceMax) / 2),
+        projectedValue: Math.round(payload.quantity * ((payload.priceMin + payload.priceMax) / 2)),
+        minimumMatch: payload.minSellAmount <= payload.quantity * payload.priceMax,
+      },
+    };
 
-  if (page === "edit-profile") {
-    initEditPage();
-  }
-});
+    savedItems.unshift(processedItem);
+    localStorage.setItem(storageKey, JSON.stringify(savedItems.slice(0, 12)));
+    return processedItem;
+  },
+};
 
-function loadProfile() {
-  const saved = localStorage.getItem(PROFILE_STORAGE_KEY);
-  if (!saved) {
-    localStorage.setItem(PROFILE_STORAGE_KEY, JSON.stringify(defaultProfile));
-    return { ...defaultProfile };
-  }
+function simulateDelay(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
 
+function getSavedItems() {
   try {
-    return { ...defaultProfile, ...JSON.parse(saved) };
+    return JSON.parse(localStorage.getItem(storageKey)) || [];
   } catch (error) {
-    localStorage.setItem(PROFILE_STORAGE_KEY, JSON.stringify(defaultProfile));
-    return { ...defaultProfile };
+    return [];
   }
 }
 
-function saveProfile(profile) {
-  localStorage.setItem(PROFILE_STORAGE_KEY, JSON.stringify(profile));
-}
-
-function initProfilePage() {
-  const profile = loadProfile();
-  const editButton = document.getElementById("editProfileBtn");
-
-  editButton.addEventListener("click", () => {
-    window.location.href = "edit-profile.html";
-  });
-
-  setAvatar("profilePhotoView", "profileInitials", profile.profilePhoto, profile.fullName);
-  setText("profileNameHeading", profile.fullName || "Your Name");
-  setText("profileUserTypeHeading", profile.userType ? `${profile.userType} Profile` : "Profile details");
-  setText("viewFullName", profile.fullName);
-  setText("viewDob", formatDate(profile.dob));
-  setText("viewGender", profile.gender);
-  setText("viewMobile", profile.mobile);
-  setText("viewState", profile.state);
-  setText("viewDistrict", profile.district);
-  setText("viewAddress", profile.address);
-  setText("viewUserType", profile.userType);
-  setText("viewDocumentType", profile.documentType);
-  renderDocumentPreview("viewDocumentPreview", profile.documentName, profile.documentData, profile.documentMime);
-
-  const farmerDetails = document.getElementById("farmerDetailsView");
-  const buyerDetails = document.getElementById("buyerDetailsView");
-  farmerDetails.hidden = profile.userType !== "Farmer";
-  buyerDetails.hidden = profile.userType !== "Buyer";
-
-  if (profile.userType === "Farmer") {
-    setText("viewFarmerType", profile.farmerType);
-    setText("viewLandArea", [profile.landArea, profile.landUnit].filter(Boolean).join(" "));
+function setError(fieldName, message) {
+  const node = document.querySelector(`[data-error-for="${fieldName}"]`);
+  if (node) {
+    node.textContent = message;
   }
-
-  if (profile.userType === "Buyer") {
-    setText("viewBuyerType", profile.buyerType);
-    setText("viewBusinessName", profile.businessName);
-    setText("viewBusinessAddress", profile.businessAddress);
-    setText("viewGstNumber", profile.gstNumber || "Not provided");
-  }
-}
-
-function initEditPage() {
-  const profile = loadProfile();
-  const form = document.getElementById("profileForm");
-  const stateSelect = document.getElementById("state");
-  const districtSelect = document.getElementById("district");
-  const userType = document.getElementById("userType");
-  const buyerType = document.getElementById("buyerType");
-  const documentType = document.getElementById("documentType");
-  const mobile = document.getElementById("mobile");
-  const address = document.getElementById("address");
-  const landArea = document.getElementById("landArea");
-  const profilePhotoInput = document.getElementById("profilePhotoInput");
-  const documentFile = document.getElementById("documentFile");
-  const removePhotoBtn = document.getElementById("removePhotoBtn");
-  const removeDocumentBtn = document.getElementById("removeDocumentBtn");
-
-  originalMobile = profile.mobile || "";
-  selectedDocumentData = profile.documentData || "";
-  selectedDocumentMime = profile.documentMime || "";
-  selectedDocumentName = profile.documentName || "";
-  currentProfilePhoto = profile.profilePhoto || "";
-
-  populateStates(stateSelect);
-  fillForm(profile);
-  populateDistricts(profile.state, profile.district);
-  toggleUserFields();
-  updateGstRequirement();
-  setAvatar("photoPreview", "editInitials", profile.profilePhoto, profile.fullName);
-  renderDocumentPreview("documentPreview", profile.documentName, profile.documentData, profile.documentMime);
-  updateAssetButtons();
-  if (profile.mobile) {
-    setMobileVerified(profile.mobileVerified === true, profile.mobileVerified === true ? "Mobile number verified" : "");
-  } else {
-    setMobileVerified(false, "");
-  }
-
-  stateSelect.addEventListener("change", () => {
-    populateDistricts(stateSelect.value, "");
-  });
-
-  userType.addEventListener("change", toggleUserFields);
-  buyerType.addEventListener("change", updateGstRequirement);
-  documentType.addEventListener("change", () => {
-    clearError("documentTypeError");
-    clearError("documentFileError");
-
-    if (documentFile.files[0] && !isDocumentFileLogical(documentFile.files[0], valueOf("documentType"))) {
-      rejectDocumentFile(documentFile, "Please upload a valid document file (JPG, PNG, or PDF)");
-    }
-  });
-
-  document.getElementById("fullName").addEventListener("input", (event) => {
-    setAvatar("photoPreview", "editInitials", currentProfilePhoto, event.target.value);
-  });
-
-  address.addEventListener("input", () => {
-    address.value = address.value.replace(/[!@#$%^&*]/g, "");
-  });
-
-  landArea.addEventListener("input", () => {
-    landArea.value = landArea.value.replace(/[^\d.]/g, "");
-  });
-
-  mobile.addEventListener("input", () => {
-    mobile.value = mobile.value.replace(/\D/g, "").slice(0, 10);
-    handleMobileInput();
-  });
-
-  mobile.addEventListener("blur", () => {
-    validateMobileField(true);
-  });
-
-  document.getElementById("verifyOtpBtn").addEventListener("click", verifyOtp);
-  document.getElementById("resendOtpBtn").addEventListener("click", startOtpTimer);
-
-  profilePhotoInput.addEventListener("change", () => {
-    const file = profilePhotoInput.files[0];
-    if (!file) return;
-
-    clearError("profilePhotoError");
-
-    if (!isAllowedProfilePhotoType(file)) {
-      rejectProfilePhoto(profilePhotoInput, "Please upload a valid human profile photo");
-      return;
-    }
-
-    readFileAsDataUrl(file, (dataUrl) => {
-      validateProfilePhotoImage(dataUrl, file, (isLikelyHumanPhoto) => {
-        if (!isLikelyHumanPhoto) {
-          rejectProfilePhoto(profilePhotoInput, "Please upload a valid human profile photo");
-          return;
-        }
-
-        currentProfilePhoto = dataUrl;
-        setAvatar("photoPreview", "editInitials", dataUrl, document.getElementById("fullName").value);
-        updateAssetButtons();
-      });
-    });
-  });
-
-  documentFile.addEventListener("change", () => {
-    const file = documentFile.files[0];
-    if (!file) return;
-
-    clearError("documentFileError");
-    clearError("documentTypeError");
-
-    if (!valueOf("documentType")) {
-      rejectDocumentFile(documentFile, "Select document type before uploading.");
-      return;
-    }
-
-    if (!isAllowedDocumentFile(file) || !isDocumentFileLogical(file, valueOf("documentType"))) {
-      rejectDocumentFile(documentFile, "Please upload a valid document file (JPG, PNG, or PDF)");
-      return;
-    }
-
-    selectedDocumentMime = file.type || "application/octet-stream";
-    readFileAsDataUrl(file, (dataUrl) => {
-      selectedDocumentData = dataUrl;
-      renderDocumentPreview("documentPreview", file.name, dataUrl, selectedDocumentMime);
-      selectedDocumentName = file.name;
-      updateAssetButtons();
-    });
-  });
-
-  removePhotoBtn.addEventListener("click", () => {
-    removeProfilePhoto(profile);
-  });
-
-  removeDocumentBtn.addEventListener("click", () => {
-    removeUploadedDocument(profile);
-  });
-
-  form.addEventListener("submit", (event) => {
-    event.preventDefault();
-    clearErrors();
-
-    if (!validateForm()) {
-      return;
-    }
-
-    const updatedProfile = collectFormData(profile);
-    saveProfile(updatedProfile);
-    Object.assign(profile, updatedProfile);
-    updateAssetButtons();
-  });
-}
-
-function fillForm(profile) {
-  const fields = ["fullName", "dob", "gender", "mobile", "state", "address", "userType", "farmerType", "landArea", "landUnit", "buyerType", "businessName", "businessAddress", "gstNumber", "documentType"];
-  fields.forEach((field) => {
-    const input = document.getElementById(field);
-    if (input) input.value = profile[field] || "";
-  });
-}
-
-function collectFormData(existingProfile) {
-  const userType = valueOf("userType");
-  const buyerType = valueOf("buyerType");
-  const documentInput = document.getElementById("documentFile");
-  const documentFile = documentInput.files[0];
-
-  return {
-    ...existingProfile,
-    fullName: valueOf("fullName"),
-    dob: valueOf("dob"),
-    gender: valueOf("gender"),
-    mobile: valueOf("mobile"),
-    mobileVerified: isMobileVerified(),
-    state: valueOf("state"),
-    district: valueOf("district"),
-    address: valueOf("address"),
-    userType,
-    farmerType: userType === "Farmer" ? valueOf("farmerType") : "",
-    landArea: userType === "Farmer" ? valueOf("landArea") : "",
-    landUnit: userType === "Farmer" ? valueOf("landUnit") : "",
-    buyerType: userType === "Buyer" ? buyerType : "",
-    businessName: userType === "Buyer" ? valueOf("businessName") : "",
-    businessAddress: userType === "Buyer" ? valueOf("businessAddress") : "",
-    gstNumber: userType === "Buyer" ? valueOf("gstNumber").toUpperCase() : "",
-    documentType: valueOf("documentType"),
-    documentName: documentFile ? documentFile.name : selectedDocumentName || existingProfile.documentName,
-    documentData: selectedDocumentData || existingProfile.documentData,
-    documentMime: selectedDocumentMime || existingProfile.documentMime,
-    profilePhoto: currentProfilePhoto || existingProfile.profilePhoto
-  };
-}
-
-function populateStates(select) {
-  Object.keys(districtMap).sort().forEach((state) => {
-    const option = document.createElement("option");
-    option.value = state;
-    option.textContent = state;
-    select.appendChild(option);
-  });
-}
-
-function populateDistricts(state, selectedDistrict) {
-  const districtSelect = document.getElementById("district");
-  districtSelect.innerHTML = '<option value="">Select district</option>';
-
-  if (!state || !districtMap[state]) return;
-
-  districtMap[state].forEach((district) => {
-    const option = document.createElement("option");
-    option.value = district;
-    option.textContent = district;
-    districtSelect.appendChild(option);
-  });
-
-  districtSelect.value = selectedDistrict || "";
-}
-
-function toggleUserFields() {
-  const selectedType = valueOf("userType");
-  const farmerFields = document.getElementById("farmerFields");
-  const buyerFields = document.getElementById("buyerFields");
-
-  farmerFields.hidden = selectedType !== "Farmer";
-  buyerFields.hidden = selectedType !== "Buyer";
-  updateGstRequirement();
-}
-
-function updateGstRequirement() {
-  const gstInput = document.getElementById("gstNumber");
-  const shouldRequire = valueOf("userType") === "Buyer" && valueOf("buyerType") === "Company";
-  gstInput.required = shouldRequire;
-}
-
-function validateForm() {
-  let valid = true;
-  const name = valueOf("fullName");
-  const mobile = valueOf("mobile");
-  const address = valueOf("address");
-  const userType = valueOf("userType");
-  const buyerType = valueOf("buyerType");
-
-  if (!name) valid = setError("fullNameError", "Full name is required.");
-  if (name.length > 50) valid = setError("fullNameError", "Full name must be 50 characters or fewer.");
-  if (!valueOf("dob")) valid = setError("dobError", "Date of birth is required.");
-  if (!valueOf("gender")) valid = setError("genderError", "Gender is required.");
-  if (!isValidMobileNumber(mobile)) valid = setError("mobileError", "Invalid mobile number");
-  if (mobile !== originalMobile && !isMobileVerified()) valid = setError("mobileError", "Verify OTP before saving the changed mobile number.");
-  if (!valueOf("state")) valid = setError("stateError", "State is required.");
-  if (!valueOf("district")) valid = setError("districtError", "District is required.");
-  if (!address) valid = setError("addressError", "Address line is required.");
-  if (/[!@#$%^&*]/.test(address)) valid = setError("addressError", "Invalid characters in address");
-  if (!userType) valid = setError("userTypeError", "User type is required.");
-
-  if (userType === "Farmer") {
-    if (!valueOf("farmerType")) valid = setError("farmerTypeError", "Farmer type is required.");
-    if (!valueOf("landArea") || Number(valueOf("landArea")) <= 0) valid = setError("landAreaError", "Enter a valid land area.");
-    if (!valueOf("landUnit")) valid = setError("landUnitError", "Land unit is required.");
-  }
-
-  if (userType === "Buyer") {
-    if (!buyerType) valid = setError("buyerTypeError", "Buyer type is required.");
-    if (!valueOf("businessName")) valid = setError("businessNameError", "Business name is required.");
-    if (!valueOf("businessAddress")) valid = setError("businessAddressError", "Business address is required.");
-    if (buyerType === "Company" && !valueOf("gstNumber")) valid = setError("gstNumberError", "GST number is required for companies.");
-  }
-
-  if (!valueOf("documentType")) valid = setError("documentTypeError", "Document type is required.");
-  if (document.getElementById("documentFile").files[0] && (!isAllowedDocumentFile(document.getElementById("documentFile").files[0]) || !isDocumentFileLogical(document.getElementById("documentFile").files[0], valueOf("documentType")))) {
-    valid = setError("documentFileError", "Please upload a valid document file (JPG, PNG, or PDF)");
-  }
-  if (!document.getElementById("documentFile").files[0] && !loadProfile().documentName) {
-    valid = setError("documentFileError", "Upload a document.");
-  }
-
-  return valid;
-}
-
-function handleMobileInput() {
-  const mobile = document.getElementById("mobile");
-  clearError("mobileError");
-
-  if (mobile.value.length < 10) {
-    setMobileVerified(false, "");
-    hideOtpPanel();
-    return;
-  }
-
-  validateMobileField(false);
-}
-
-function validateMobileField(isBlurEvent) {
-  const mobile = document.getElementById("mobile");
-  const value = mobile.value.trim();
-
-  if (!value) {
-    setMobileVerified(false, "");
-    hideOtpPanel();
-    return false;
-  }
-
-  if (value.length < 10 && !isBlurEvent) {
-    return false;
-  }
-
-  if (!isValidMobileNumber(value)) {
-    setMobileVerified(false, "");
-    hideOtpPanel();
-    setError("mobileError", "Invalid mobile number");
-    return false;
-  }
-
-  clearError("mobileError");
-
-  if (value === originalMobile) {
-    setMobileVerified(true, "Mobile number verified");
-    hideOtpPanel();
-    return true;
-  }
-
-  setMobileVerified(false, "Mobile number verified", "success");
-  showOtpPanel();
-  return true;
-}
-
-function isValidMobileNumber(value) {
-  return /^[6-9]\d{9}$/.test(value);
-}
-
-function showOtpPanel() {
-  document.getElementById("otpPanel").hidden = false;
-  startOtpTimer();
-}
-
-function hideOtpPanel() {
-  document.getElementById("otpPanel").hidden = true;
-  clearInterval(otpInterval);
-}
-
-function verifyOtp() {
-  const otpInput = document.getElementById("otpInput");
-  const status = document.getElementById("mobileStatus");
-
-  if (otpInput.value === DEMO_OTP) {
-    setMobileVerified(true);
-    status.textContent = "Mobile number verified";
-    hideOtpPanel();
-    clearError("mobileError");
-  } else {
-    setMobileVerified(false);
-    setError("mobileError", "Enter the correct OTP.");
-  }
-}
-
-function startOtpTimer() {
-  const resendButton = document.getElementById("resendOtpBtn");
-  const timer = document.getElementById("otpTimer");
-  otpSeconds = 30;
-  resendButton.disabled = true;
-  timer.textContent = "30s";
-  clearInterval(otpInterval);
-
-  otpInterval = setInterval(() => {
-    otpSeconds -= 1;
-    timer.textContent = `${otpSeconds}s`;
-
-    if (otpSeconds <= 0) {
-      clearInterval(otpInterval);
-      timer.textContent = "Ready";
-      resendButton.disabled = false;
-    }
-  }, 1000);
-}
-
-function setMobileVerified(isVerified, message, tone) {
-  const mobile = document.getElementById("mobile");
-  const status = document.getElementById("mobileStatus");
-  mobile.dataset.verified = String(isVerified);
-  status.textContent = message !== undefined ? message : isVerified ? "Mobile number verified" : "OTP verification required";
-  status.style.color = tone === "success" || isVerified ? "var(--success)" : "var(--danger)";
-}
-
-function isMobileVerified() {
-  return document.getElementById("mobile").dataset.verified === "true";
-}
-
-function setAvatar(containerId, initialsId, imageData, name) {
-  const container = document.getElementById(containerId);
-  const initials = getInitials(name);
-  container.innerHTML = "";
-
-  if (imageData) {
-    const img = document.createElement("img");
-    img.src = imageData;
-    img.alt = `${name || "User"} profile photo`;
-    container.appendChild(img);
-    return;
-  }
-
-  const span = document.createElement("span");
-  span.className = "avatar-initials";
-  span.id = initialsId;
-  span.textContent = initials;
-  container.appendChild(span);
-}
-
-function renderDocumentPreview(containerId, fileName, dataUrl, mimeType) {
-  const preview = document.getElementById(containerId);
-  preview.innerHTML = "";
-
-  if (!fileName && !dataUrl) {
-    preview.textContent = "No document uploaded";
-    return;
-  }
-
-  if (dataUrl && mimeType && mimeType.startsWith("image/")) {
-    const img = document.createElement("img");
-    img.src = dataUrl;
-    img.alt = fileName || "Uploaded document";
-    preview.appendChild(img);
-    return;
-  }
-
-  preview.textContent = fileName || "Document uploaded";
-}
-
-function readFileAsDataUrl(file, callback) {
-  const reader = new FileReader();
-  reader.onload = () => callback(reader.result);
-  reader.readAsDataURL(file);
-}
-
-function isAllowedProfilePhotoType(file) {
-  const allowedTypes = ["image/jpeg", "image/png"];
-  const allowedExtensions = /\.(jpe?g|png)$/i;
-  return allowedTypes.includes(file.type) && allowedExtensions.test(file.name);
-}
-
-function validateProfilePhotoImage(dataUrl, file, callback) {
-  const image = new Image();
-
-  image.onload = () => {
-    callback(isLikelyHumanProfilePhoto(image, file));
-  };
-
-  image.onerror = () => {
-    callback(false);
-  };
-
-  image.src = dataUrl;
-}
-
-function isLikelyHumanProfilePhoto(image, file) {
-  const minSize = 180;
-  const maxRatio = 2.2;
-  const width = image.naturalWidth;
-  const height = image.naturalHeight;
-  const ratio = Math.max(width, height) / Math.max(1, Math.min(width, height));
-  const fileNameLooksRelevant = /(profile|photo|face|selfie|passport|person|user|avatar|headshot)/i.test(file.name);
-
-  // Lightweight frontend simulation: reject tiny, extreme-ratio, or random-looking images.
-  return width >= minSize && height >= minSize && ratio <= maxRatio && (file.size >= 15000 || fileNameLooksRelevant);
-}
-
-function rejectProfilePhoto(input, message) {
-  input.value = "";
-  setError("profilePhotoError", message);
-}
-
-function isAllowedDocumentFile(file) {
-  const allowedTypes = ["image/jpeg", "image/png", "application/pdf"];
-  const allowedExtensions = /\.(jpe?g|png|pdf)$/i;
-  const hasAllowedMime = !file.type || allowedTypes.includes(file.type);
-  return hasAllowedMime && allowedExtensions.test(file.name);
-}
-
-function isDocumentFileLogical(file, documentType) {
-  const normalizedName = file.name.toLowerCase();
-  const documentKeywords = {
-    Aadhaar: ["aadhaar", "aadhar"],
-    PAN: ["pan"],
-    "Voter ID": ["voter", "election"],
-    "Driving License": ["driving", "license", "licence", "dl"]
-  };
-
-  const otherDocumentWords = Object.entries(documentKeywords)
-    .filter(([type]) => type !== documentType)
-    .flatMap(([, keywords]) => keywords);
-
-  // Basic guard only: reject files that are clearly named as a different document type.
-  return !otherDocumentWords.some((keyword) => normalizedName.includes(keyword));
-}
-
-function rejectDocumentFile(input, message) {
-  const savedProfile = loadProfile();
-  input.value = "";
-  selectedDocumentData = "";
-  selectedDocumentMime = "";
-  selectedDocumentName = savedProfile.documentName || "";
-  renderDocumentPreview("documentPreview", savedProfile.documentName, savedProfile.documentData, savedProfile.documentMime);
-  updateAssetButtons();
-  setError("documentFileError", message);
-}
-
-function removeProfilePhoto(profile) {
-  const storedProfile = loadProfile();
-  currentProfilePhoto = "";
-  profile.profilePhoto = "";
-  document.getElementById("profilePhotoInput").value = "";
-  saveProfile({ ...storedProfile, profilePhoto: "" });
-  setAvatar("photoPreview", "editInitials", "", valueOf("fullName"));
-  clearError("profilePhotoError");
-  updateAssetButtons();
-}
-
-function removeUploadedDocument(profile) {
-  const storedProfile = loadProfile();
-  // Keep removal immediate so a deleted asset is not restored by a later page refresh.
-  const emptyDocument = {
-    documentName: "",
-    documentData: "",
-    documentMime: ""
-  };
-
-  selectedDocumentData = "";
-  selectedDocumentMime = "";
-  selectedDocumentName = "";
-  profile.documentName = "";
-  profile.documentData = "";
-  profile.documentMime = "";
-  document.getElementById("documentFile").value = "";
-  saveProfile({ ...storedProfile, ...emptyDocument });
-  renderDocumentPreview("documentPreview", "", "", "");
-  clearError("documentFileError");
-  updateAssetButtons();
-}
-
-function updateAssetButtons() {
-  const removePhotoBtn = document.getElementById("removePhotoBtn");
-  const removeDocumentBtn = document.getElementById("removeDocumentBtn");
-
-  if (removePhotoBtn) {
-    removePhotoBtn.hidden = !currentProfilePhoto;
-  }
-
-  if (removeDocumentBtn) {
-    removeDocumentBtn.hidden = !(selectedDocumentData || selectedDocumentName);
-  }
-}
-
-function formatDate(value) {
-  if (!value) return "-";
-  const date = new Date(`${value}T00:00:00`);
-  if (Number.isNaN(date.getTime())) return value;
-  return date.toLocaleDateString("en-IN", {
-    day: "2-digit",
-    month: "short",
-    year: "numeric"
-  });
-}
-
-function getInitials(name) {
-  if (!name) return "FB";
-  return name
-    .trim()
-    .split(/\s+/)
-    .slice(0, 2)
-    .map((part) => part[0])
-    .join("")
-    .toUpperCase() || "FB";
-}
-
-function setText(id, value) {
-  document.getElementById(id).textContent = value || "-";
-}
-
-function valueOf(id) {
-  const element = document.getElementById(id);
-  return element ? element.value.trim() : "";
-}
-
-function setError(id, message) {
-  document.getElementById(id).textContent = message;
-  return false;
-}
-
-function clearError(id) {
-  document.getElementById(id).textContent = "";
 }
 
 function clearErrors() {
-  document.querySelectorAll(".error").forEach((error) => {
-    error.textContent = "";
+  document.querySelectorAll(".error-text").forEach((node) => {
+    node.textContent = "";
   });
 }
+
+function showFeedback(message, type) {
+  elements.feedbackMessage.textContent = message;
+  elements.feedbackMessage.className = `feedback-message ${type}`;
+}
+
+function hideFeedback() {
+  elements.feedbackMessage.className = "feedback-message hidden";
+  elements.feedbackMessage.textContent = "";
+}
+
+function formatCurrency(value) {
+  return new Intl.NumberFormat("en-IN", {
+    style: "currency",
+    currency: "INR",
+    maximumFractionDigits: 0,
+  }).format(Number(value) || 0);
+}
+
+function updateSummary() {
+  const quantity = Number(fieldRefs.quantity.value) || 0;
+  const priceMin = Number(fieldRefs.priceMin.value) || 0;
+  const priceMax = Number(fieldRefs.priceMax.value) || 0;
+  const minSellAmount = Number(fieldRefs.minSellAmount.value) || 0;
+  const average = priceMin && priceMax ? (priceMin + priceMax) / 2 : 0;
+  const projected = quantity * average;
+  const isMatch = minSellAmount > 0 && projected > 0 ? minSellAmount <= projected : null;
+
+  elements.averagePrice.textContent = formatCurrency(average);
+  elements.projectedValue.textContent = formatCurrency(projected);
+  elements.minimumMatch.textContent = isMatch === null ? "Pending" : isMatch ? "Matched" : "Too High";
+  elements.minimumMatch.style.color = isMatch === null ? "#1B1B1B" : isMatch ? "#4CAF50" : "#FB8C00";
+}
+
+function validateForm() {
+  clearErrors();
+  const data = {
+    productType: fieldRefs.productType.value.trim(),
+    productName: fieldRefs.productName.value.trim(),
+    quantity: Number(fieldRefs.quantity.value),
+    quantityUnit: fieldRefs.quantityUnit.value.trim(),
+    priceMin: Number(fieldRefs.priceMin.value),
+    priceMax: Number(fieldRefs.priceMax.value),
+    minSellAmount: Number(fieldRefs.minSellAmount.value),
+    notes: fieldRefs.notes.value.trim(),
+    imageDataUrl: selectedImageData,
+  };
+
+  let hasError = false;
+
+  if (!data.imageDataUrl) {
+    showFeedback("Please upload a product image before submitting.", "error");
+    hasError = true;
+  }
+
+  if (!data.productType) {
+    setError("productType", "Please select a product type.");
+    hasError = true;
+  }
+
+  if (!data.productName || data.productName.length < 2) {
+    setError("productName", "Product name must be at least 2 characters.");
+    hasError = true;
+  }
+
+  if (!Number.isFinite(data.quantity) || data.quantity <= 0) {
+    setError("quantity", "Enter a valid quantity greater than 0.");
+    hasError = true;
+  }
+
+  if (!data.quantityUnit) {
+    setError("quantityUnit", "Please select a quantity unit.");
+    hasError = true;
+  }
+
+  if (!Number.isFinite(data.priceMin) || !Number.isFinite(data.priceMax)) {
+    setError("priceRange", "Enter both minimum and maximum price.");
+    hasError = true;
+  } else if (data.priceMin <= 0 || data.priceMax <= 0) {
+    setError("priceRange", "Price values must be greater than 0.");
+    hasError = true;
+  } else if (data.priceMin > data.priceMax) {
+    setError("priceRange", "Minimum price cannot be greater than maximum price.");
+    hasError = true;
+  }
+
+  if (!Number.isFinite(data.minSellAmount) || data.minSellAmount <= 0) {
+    setError("minSellAmount", "Enter a valid minimum amount.");
+    hasError = true;
+  }
+
+  return hasError ? null : data;
+}
+
+function resetImagePreview() {
+  selectedImageData = null;
+  elements.imageInput.value = "";
+  elements.previewImage.style.display = "none";
+  elements.previewImage.removeAttribute("src");
+  elements.uploadPlaceholder.style.display = "block";
+  elements.imageMeta.textContent = "No image selected yet.";
+  elements.progressFill.style.width = "0%";
+}
+
+function resetForm(options = {}) {
+  const { preserveFeedback = false } = options;
+  elements.form.reset();
+  clearErrors();
+  if (!preserveFeedback) {
+    hideFeedback();
+  }
+  resetImagePreview();
+  updateSummary();
+}
+
+function renderRecords() {
+  const items = getSavedItems();
+
+  if (!items.length) {
+    elements.recordsList.innerHTML = `
+      <div class="empty-state">
+        <h3>No items added yet</h3>
+        <p>Your processed product entries will appear here after you submit the form.</p>
+      </div>
+    `;
+    return;
+  }
+
+  elements.recordsList.innerHTML = items
+    .map((item) => {
+      const createdDate = new Date(item.createdAt).toLocaleString("en-IN", {
+        dateStyle: "medium",
+        timeStyle: "short",
+      });
+
+      return `
+        <article class="record-card">
+          <div class="record-top">
+            <div>
+              <h3>${escapeHtml(item.productName)}</h3>
+              <p>${escapeHtml(item.notes || "No additional notes provided.")}</p>
+            </div>
+            <span class="record-type">${capitalize(item.productType)}</span>
+          </div>
+          <div class="record-meta">
+            <span>${item.quantity} ${escapeHtml(item.quantityUnit)}</span>
+            <span>${formatCurrency(item.priceMin)} - ${formatCurrency(item.priceMax)}</span>
+            <span>Min sell ${formatCurrency(item.minSellAmount)}</span>
+          </div>
+          <div class="record-meta">
+            <span>Average ${formatCurrency(item.analytics.averagePrice)}</span>
+            <span>Projected ${formatCurrency(item.analytics.projectedValue)}</span>
+            <span>${item.analytics.minimumMatch ? "Order matched" : "Review minimum"}</span>
+          </div>
+          <div class="record-meta">
+            <span>${createdDate}</span>
+          </div>
+        </article>
+      `;
+    })
+    .join("");
+}
+
+function escapeHtml(value) {
+  return String(value)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#39;");
+}
+
+function capitalize(value) {
+  if (!value) {
+    return "";
+  }
+
+  return value.charAt(0).toUpperCase() + value.slice(1);
+}
+
+async function handleImageChange(event) {
+  const [file] = event.target.files || [];
+  hideFeedback();
+
+  if (!file) {
+    resetImagePreview();
+    return;
+  }
+
+  const allowedTypes = ["image/jpeg", "image/jpg", "image/png"];
+  if (!allowedTypes.includes(file.type)) {
+    resetImagePreview();
+    showFeedback("Only JPEG and PNG images are allowed.", "error");
+    return;
+  }
+
+  if (file.size > 4 * 1024 * 1024) {
+    resetImagePreview();
+    showFeedback("Please choose an image smaller than 4 MB.", "error");
+    return;
+  }
+
+  elements.progressFill.style.width = "35%";
+
+  const reader = new FileReader();
+  reader.onload = async () => {
+    selectedImageData = reader.result;
+    elements.previewImage.src = selectedImageData;
+    elements.previewImage.style.display = "block";
+    elements.uploadPlaceholder.style.display = "none";
+    elements.imageMeta.textContent = `${file.name} | ${(file.size / 1024).toFixed(0)} KB`;
+    elements.progressFill.style.width = "80%";
+    await simulateDelay(180);
+    elements.progressFill.style.width = "100%";
+    showFeedback("Image processed successfully and ready for submission.", "success");
+  };
+  reader.readAsDataURL(file);
+}
+
+async function handleSubmit(event) {
+  event.preventDefault();
+  hideFeedback();
+
+  const payload = validateForm();
+  if (!payload) {
+    return;
+  }
+
+  elements.submitButton.disabled = true;
+  elements.submitButton.textContent = "Processing...";
+
+  try {
+    const savedItem = await backendService.processItem(payload);
+    showFeedback(
+      `${savedItem.productName} was added successfully with projected value ${formatCurrency(savedItem.analytics.projectedValue)}.`,
+      "success"
+    );
+    renderRecords();
+    resetForm({ preserveFeedback: true });
+  } catch (error) {
+    showFeedback("Something went wrong while processing the item. Please try again.", "error");
+  } finally {
+    elements.submitButton.disabled = false;
+    elements.submitButton.textContent = "Add Item";
+  }
+}
+
+function bindEvents() {
+  elements.imageInput.addEventListener("change", handleImageChange);
+  elements.form.addEventListener("submit", handleSubmit);
+  elements.resetButton.addEventListener("click", resetForm);
+  elements.clearStorageButton.addEventListener("click", () => {
+    localStorage.removeItem(storageKey);
+    renderRecords();
+    showFeedback("All locally processed records were cleared.", "success");
+  });
+
+  Object.values(fieldRefs).forEach((field) => {
+    field.addEventListener("input", updateSummary);
+    field.addEventListener("change", updateSummary);
+  });
+}
+
+bindEvents();
+updateSummary();
+renderRecords();
+
+
+
+const imageInput = document.getElementById("productImage");
+const previewImage = document.getElementById("previewImage");
+const uploadPlaceholder = document.getElementById("uploadPlaceholder");
+const imageMeta = document.getElementById("imageMeta");
+const progressFill = document.getElementById("progressFill");
+
+let selectedImageData = null;
+
+// 🔥 IMAGE UPLOAD FUNCTION
+imageInput.addEventListener("change", function (event) {
+
+  const file = event.target.files[0];
+
+  if (!file) return;
+
+  // ✅ File validation
+  if (!file.type.startsWith("image/")) {
+    alert("Only image allowed!");
+    return;
+  }
+
+  if (file.size > 4 * 1024 * 1024) {
+    alert("Max 4MB allowed");
+    return;
+  }
+
+  // Progress start
+  progressFill.style.width = "30%";
+
+  const reader = new FileReader();
+
+  reader.onload = function () {
+
+    selectedImageData = reader.result;
+
+    // ✅ Show image
+    previewImage.src = selectedImageData;
+    previewImage.style.display = "block";
+
+    uploadPlaceholder.style.display = "none";
+
+    imageMeta.textContent = file.name;
+
+    progressFill.style.width = "100%";
+  };
+
+  reader.readAsDataURL(file);
+});

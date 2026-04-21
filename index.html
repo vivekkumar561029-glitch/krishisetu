@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+
+
+<head>
+  <link rel="stylesheet" href="style.css">
+  <link rel="manifest" href="manifest.json">
+
+  <base href="$FLUTTER_BASE_HREF">
+
+  <meta charset="UTF-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <meta name="description" content="A new Flutter project.">
+
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="first_flutter_app">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+
+  <link rel="icon" type="image/png" href="favicon.png"/>
+
+  <title>Add Item Section</title>
+  <link rel="manifest" href="manifest.json">
+</head>
+<body>
+    <script src="script.js"></script>
+  <script src="flutter_bootstrap.js" async></script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Add farm product items with image upload, pricing, and quick inventory processing.">
+  <meta name="theme-color" content="#2E7D32">
+  <title>AgriMarket Item Manager</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <main class="app-card">
+      <div class="card-header">
+        <div>
+          <p class="eyebrow"></p>
+          <h2>Add Item</h2>
+        </div>
+        <div class="status-pill" id="connectionStatus"></div>
+      </div>
+
+     
+
+        <div class="form-grid">
+          <div class="field full-width">
+            <label for="productType">Type of Product</label>
+            <select id="productType" name="productType" required>
+              <option value="">Select Product Type</option>
+              <option value="vegetables">Vegetables</option>
+              <option value="fruits">Fruits</option>
+              <option value="grains">Grains</option>
+              <option value="pulses">Pulses</option>
+              <option value="spices">Spices</option>
+              <option value="dairy">Dairy</option>
+            </select>
+            <small class="error-text" data-error-for="productType"></small>
+          </div>
+
+          <div class="field full-width">
+            <label for="productName">Product Name</label>
+            <input id="productName" name="productName" type="text" placeholder="Enter product name" maxlength="60" required>
+            <small class="error-text" data-error-for="productName"></small>
+          </div>
+
+          <div class="field">
+            <label for="quantity">Quantity</label>
+            <input id="quantity" name="quantity" type="number" min="1" placeholder="Enter quantity" required>
+            <small class="error-text" data-error-for="quantity"></small>
+          </div>
+
+          <div class="field">
+            <label for="quantityUnit">Quantity Unit</label>
+            <select id="quantityUnit" name="quantityUnit" required>
+              <option value="kg">Kilograms (kg)</option>
+              <option value="quintal">Quintal</option>
+              <option value="bag">Bag</option>
+              <option value="crate">Crate</option>
+              <option value="ton">Ton</option>
+            </select>
+            <small class="error-text" data-error-for="quantityUnit"></small>
+          </div>
+
+          <div class="field">
+            <label for="priceMin">Price Range (Per kg)</label>
+            <div class="price-range">
+              <div class="currency-input">
+                <span>&#8377;</span>
+                <input id="priceMin" name="priceMin" type="number" min="1" placeholder="Min" required>
+              </div>
+              <span class="range-divider">to</span>
+              <div class="currency-input">
+                <span>&#8377;</span>
+                <input id="priceMax" name="priceMax" type="number" min="1" placeholder="Max" required>
+              </div>
+            </div>
+            <small class="error-text" data-error-for="priceRange"></small>
+          </div>
+
+          <div class="field">
+            <label for="minSellAmount">Minimum Amount He Wants to Sell</label>
+            <div class="currency-input">
+              <span>&#8377;</span>
+              <input id="minSellAmount" name="minSellAmount" type="number" min="1" placeholder="Enter minimum amount he wants to sell" required>
+            </div>
+            <small class="error-text" data-error-for="minSellAmount"></small>
+          </div>
+
+          <div class="field full-width">
+            <label for="notes">Additional Notes</label>
+            <textarea id="notes" name="notes" rows="4" placeholder="Mention freshness, grade, delivery, or special details"></textarea>
+          </div>
+        </div>
+ <form id="productForm" novalidate>
+        <div class="upload-section">
+          <label for="productImage" class="upload-box" id="uploadBox">
+            <input id="productImage" name="productImage" type="file" accept="image/png, image/jpeg, image/jpg" hidden>
+            <div class="upload-placeholder" id="uploadPlaceholder">
+              <div class="upload-icon">+</div>
+              <h3>Add Photo</h3>
+              <p>Upload an image (JPEG, PNG)</p>
+            </div>
+            <img id="previewImage" class="preview-image" alt="Selected product preview">
+          </label>
+
+          
+          </div>
+        </div>
+        <section class="summary-panel">
+        </section>
+
+        <div class="form-actions">
+          <button type="button" class="secondary-button" id="resetButton">Reset</button>
+          <button type="submit" class="primary-button" id="submitButton">Add Item</button>
+        </div>
+      </form>
+
+      <div class="feedback-message hidden" id="feedbackMessage"></div>
+    </main>
+
+    
+
+      <div id="recordsList" class="records-list"></div>
+    </aside>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>AgriMarket Item Manager</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+<main class="app-card">
+
+  <h2>Add Item</h2>
+
+  <!-- ✅ FORM START -->
+  <form id="productForm">
+
+    <!-- Image Upload -->
+    <div class="upload-section">
+      <label class="upload-box">
+        <input type="file" id="productImage" accept="image/*" hidden>
+
+        <div id="uploadPlaceholder">
+          <h3>Click to Add Photo</h3>
+        </div>
+
+        <img id="previewImage" style="display:none; width:100%;">
+      </label>
+
+      <!-- Extra UI -->
+      <p id="imageMeta">No image selected</p>
+
+      <div class="progress-track">
+        <div id="progressFill" class="progress-fill"></div>
+      </div>
+    </div>
+
+    <!-- Inputs -->
+    <input id="productName" placeholder="Product Name" required>
+    <input id="quantity" type="number" placeholder="Quantity" required>
+
+    <button type="submit" id="submitButton">Add Item</button>
+
+  </form>
+  <!-- ✅ FORM END -->
+
+  <div id="feedbackMessage"></div>
+
+</main>
+
+<script src="script.js"></script>
+</body>
+</html>
