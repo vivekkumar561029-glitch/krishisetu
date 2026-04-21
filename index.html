@@ -3,82 +3,326 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>कृषि सेतु</title>
+  <title>अग्रिम बुकिंग</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 </head>
-<body>
-  <div class="app-shell">
-    <button id="themeToggle" class="theme-toggle" type="button" aria-label="थीम बदलें">डार्क मोड</button>
+<body data-theme="dark">
+  <div class="page-shell">
+    <div class="background-overlay"></div>
 
-    <main class="main-content">
-      <section id="languagePage" class="page active" aria-labelledby="languageTitle">
-        <div class="glass-card language-card">
-          <p class="eyebrow">स्मार्ट कृषि प्लेटफ़ॉर्म</p>
-          <h1 class="brand-name">कृषि सेतु</h1>
-          <h2 id="languageTitle" class="page-title">अपनी भाषा चुनें</h2>
-          <p class="page-subtitle">जारी रखने के लिए अपनी पसंदीदा भाषा चुनें</p>
+    <header class="topbar">
+      <button class="theme-toggle" id="theme-toggle" type="button" aria-label="रंग मोड बदलें" aria-pressed="false">
+        <span class="toggle-knob"></span>
+        <span class="toggle-label">लाइट मोड</span>
+      </button>
+    </header>
 
-          <div class="language-actions">
-            <button class="primary-btn language-btn" type="button" data-language="हिंदी">हिंदी में जारी रखें</button>
-            <button class="secondary-btn language-btn" type="button" data-language="English">English</button>
-          </div>
-        </div>
+    <main class="booking-page">
+      <section class="hero-copy" aria-label="अग्रिम बुकिंग अवलोकन">
+        <p class="eyebrow">नई अग्रिम बुकिंग जोड़ें</p>
+        <h1>अग्रिम बुकिंग</h1>
+        <p class="hero-subtitle">अपनी फसल के लिए अग्रिम धनराशि का अनुरोध करें</p>
       </section>
 
-      <section id="searchPage" class="page" aria-labelledby="searchTitle">
-        <div class="glass-card search-card">
-          <div class="card-header">
-            <div>
-              <p class="eyebrow">कृषि खरीद सहायता</p>
-              <h2 id="searchTitle" class="page-title">उत्पाद खोजें</h2>
-            </div>
-            <span id="selectedLanguageBadge" class="language-badge" aria-live="polite">भाषा: हिंदी</span>
+      <section class="glass-card" aria-labelledby="booking-title">
+        <div class="card-header">
+          <div>
+            <p class="section-label">बुकिंग जानकारी</p>
+            <h2 id="booking-title">अग्रिम बुकिंग</h2>
+          </div>
+          <span class="status-badge">किसान मित्र फॉर्म</span>
+        </div>
+
+        <form class="booking-form">
+          <div class="field-group">
+            <label for="amount">आवश्यक राशि (₹)</label>
+            <input id="amount" name="amount" type="number" min="0" placeholder="आवश्यक राशि दर्ज करें">
           </div>
 
-          <form id="productForm" novalidate>
-            <div class="form-grid">
-              <div class="form-group">
-                <label for="category">उत्पाद प्रकार</label>
-                <select id="category" name="category" required>
-                  <option value="">उत्पाद प्रकार चुनें</option>
-                </select>
-              </div>
-
-              <div class="form-group">
-                <label for="product">उत्पाद नाम</label>
-                <select id="product" name="product" required disabled>
-                  <option value="">पहले उत्पाद प्रकार चुनें</option>
-                </select>
-              </div>
-
-              <div class="form-group">
-                <label for="variety">उप-समूह / किस्म</label>
-                <select id="variety" name="variety" required disabled>
-                  <option value="">पहले उत्पाद नाम चुनें</option>
-                </select>
-              </div>
-
-              <div class="form-group quantity-group">
-                <label for="minQty">मात्रा सीमा (किलो में)</label>
-                <div class="quantity-row">
-                  <input id="minQty" name="minQty" type="number" min="0" step="0.1" placeholder="न्यूनतम मात्रा" required>
-                  <input id="maxQty" name="maxQty" type="number" min="0" step="0.1" placeholder="अधिकतम मात्रा" required>
-                </div>
-              </div>
+          <div class="field-group field-group-land">
+            <label for="land-size">भूमि विवरण</label>
+            <div class="land-details">
+              <input id="land-size" name="land-size" type="number" min="0" step="0.01" placeholder="फसल के लिए भूमि का आकार बताएं ताकि वित्तपोषण और उपज का अनुमान लगाया जा सके">
+              <select id="land-unit" name="land-unit">
+                <option value="" selected>इकाई चुनें</option>
+                <option value="hectare">हेक्टेयर</option>
+                <option value="acre">एकड़</option>
+                <option value="bigha">बीघा</option>
+                <option value="cent">सेंट</option>
+                <option value="guntha">गुंठा</option>
+                <option value="katha">कट्ठा</option>
+                <option value="sq-meter">वर्ग मीटर</option>
+              </select>
             </div>
+          </div>
 
-            <p id="formMessage" class="form-message" aria-live="polite"></p>
+          <div class="field-group">
+            <label for="product-type">उत्पाद प्रकार</label>
+            <select id="product-type" name="product-type" size="1">
+              <option value="" selected>उत्पाद प्रकार चुनें</option>
+              <option value="cereals">अनाज</option>
+              <option value="pulses">दालें</option>
+              <option value="oilseeds">तिलहन</option>
+              <option value="vegetables">सब्जियाँ</option>
+              <option value="fruits">फल</option>
+              <option value="spices">मसाले</option>
+              <option value="cash-crops">नकदी फसलें</option>
+              <option value="plantation-crops">बागान फसलें</option>
+              <option value="dry-fruits">सूखे मेवे</option>
+              <option value="flowers">फूल</option>
+              <option value="fodder-crops">चारा फसलें</option>
+              <option value="herbs">जड़ी-बूटियाँ / औषधीय फसलें</option>
+            </select>
+          </div>
 
-            <button class="primary-btn submit-btn" type="submit">ऑर्डर खोजें</button>
-          </form>
-        </div>
+          <div class="field-group">
+            <label for="product-name">उत्पाद का नाम</label>
+            <select id="product-name" name="product-name" disabled size="1">
+              <option value="" selected>पहले उत्पाद प्रकार चुनें</option>
+            </select>
+          </div>
+
+          <div class="field-group">
+            <label for="quantity">मात्रा</label>
+            <input id="quantity" name="quantity" type="text" value="" placeholder="स्वचालित गणना की गई मात्रा" readonly>
+            <div class="commitment-box is-hidden" id="commitment-box" aria-live="polite">
+              <p class="commitment-title">फसल प्रतिबद्धता</p>
+              <p class="market-price" id="market-price">वर्तमान बाजार मूल्य: ₹25/किग्रा</p>
+              <p class="commitment-message" id="commitment-message">वर्तमान बाजार मूल्य ₹25/किग्रा के आधार पर, आप लगभग 200 किग्रा फसल देने के लिए प्रतिबद्ध होंगे। 50% सुरक्षा बफर सहित, कुल प्रतिबद्धता 300 किग्रा हो जाती है।</p>
+              <p class="commitment-explainer">फसल प्रतिबद्धता बाजार मूल्य के आधार पर स्वचालित रूप से गणना की जाती है ताकि एक उचित और पारदर्शी सौदा सुनिश्चित हो सके।</p>
+              <p class="fairness-note">यदि बाजार मूल्य बढ़ता है, तो खरीदार सुरक्षित रहता है। यदि बाजार मूल्य घटता है, तो खरीदार को लाभ होता है। निश्चित प्रतिबद्धता विश्वास सुनिश्चित करती है।</p>
+            </div>
+          </div>
+
+          <div class="field-group">
+            <label for="price">प्रति किग्रा मूल्य (₹)</label>
+            <input id="price" name="price" type="number" min="0" step="0.01" placeholder="प्रति किग्रा मूल्य दर्ज करें">
+          </div>
+
+          <div class="field-group field-group-submit">
+            <button class="submit-button" type="submit">अनुरोध सबमिट करें</button>
+          </div>
+        </form>
       </section>
     </main>
   </div>
 
-  <script src="script.js"></script>
+  <script>
+    const themeToggle = document.getElementById("theme-toggle");
+    const toggleLabel = themeToggle.querySelector(".toggle-label");
+    const body = document.body;
+
+    const productsByType = {
+      "cereals": ["गेहूँ", "चावल", "मक्का", "जौ", "बाजरा", "ज्वार", "रागी"],
+      "pulses": ["चना", "अरहर", "मूँग", "उड़द", "मसूर", "मटर", "राजमा"],
+      "oilseeds": ["सरसों", "मूँगफली", "सोयाबीन", "सूरजमुखी", "तिल", "अलसी", "अरंडी"],
+      "vegetables": ["आलू", "टमाटर", "प्याज", "बैंगन", "पत्तागोभी", "फूलगोभी", "पालक", "गाजर", "मूली", "भिंडी", "लौकी", "करेला", "कद्दू", "शिमला मिर्च", "हरी मिर्च", "मटर", "बीन्स", "खीरा"],
+      "fruits": ["आम", "केला", "अमरूद", "सेब", "पपीता", "संतरा", "अनार", "अंगूर", "तरबूज", "खरबूज", "लीची", "अनानास"],
+      "spices": ["हल्दी", "धनिया", "जीरा", "मेथी", "लाल मिर्च", "काली मिर्च", "इलायची", "अदरक", "लहसुन"],
+      "cash-crops": ["गन्ना", "कपास", "जूट", "तंबाकू"],
+      "plantation-crops": ["चाय", "कॉफी", "नारियल", "सुपारी", "रबर"],
+      "dry-fruits": ["बादाम", "काजू", "अखरोट", "किशमिश", "पिस्ता"],
+      "flowers": ["गुलाब", "गेंदा", "चमेली", "सूरजमुखी", "लिली", "कमल", "रजनीगंधा"],
+      "fodder-crops": ["बरसीम", "नेपियर घास", "अल्फाल्फा", "ज्वार चारा", "मक्का चारा"],
+      "herbs": ["तुलसी", "एलोवेरा", "अश्वगंधा", "लेमनग्रास", "पुदीना"]
+    };
+
+    const marketPrices = {
+      "गेहूँ": 22,
+      "चावल": 24,
+      "मक्का": 21,
+      "जौ": 20,
+      "बाजरा": 19,
+      "ज्वार": 20,
+      "रागी": 23,
+      "चना": 28,
+      "अरहर": 34,
+      "मूँग": 36,
+      "उड़द": 35,
+      "मसूर": 30,
+      "मटर": 26,
+      "राजमा": 42,
+      "सरसों": 31,
+      "मूँगफली": 34,
+      "सोयाबीन": 27,
+      "सूरजमुखी": 29,
+      "तिल": 38,
+      "अलसी": 30,
+      "अरंडी": 32,
+      "आलू": 16,
+      "टमाटर": 25,
+      "प्याज": 18,
+      "बैंगन": 20,
+      "पत्तागोभी": 15,
+      "फूलगोभी": 17,
+      "पालक": 14,
+      "गाजर": 19,
+      "मूली": 13,
+      "भिंडी": 24,
+      "लौकी": 18,
+      "करेला": 26,
+      "कद्दू": 15,
+      "शिमला मिर्च": 30,
+      "हरी मिर्च": 34,
+      "बीन्स": 28,
+      "खीरा": 20,
+      "आम": 40,
+      "केला": 18,
+      "अमरूद": 26,
+      "सेब": 42,
+      "पपीता": 24,
+      "संतरा": 32,
+      "अनार": 44,
+      "अंगूर": 36,
+      "तरबूज": 14,
+      "खरबूज": 19,
+      "लीची": 48,
+      "अनानास": 28,
+      "हल्दी": 34,
+      "धनिया": 30,
+      "जीरा": 46,
+      "मेथी": 24,
+      "लाल मिर्च": 40,
+      "काली मिर्च": 58,
+      "इलायची": 85,
+      "अदरक": 27,
+      "लहसुन": 29,
+      "गन्ना": 6,
+      "कपास": 54,
+      "जूट": 16,
+      "तंबाकू": 42,
+      "चाय": 62,
+      "कॉफी": 74,
+      "नारियल": 22,
+      "सुपारी": 38,
+      "रबर": 28,
+      "बादाम": 92,
+      "काजू": 84,
+      "अखरोट": 88,
+      "किशमिश": 54,
+      "पिस्ता": 98,
+      "गुलाब": 14,
+      "गेंदा": 12,
+      "चमेली": 22,
+      "लिली": 20,
+      "कमल": 24,
+      "रजनीगंधा": 18,
+      "बरसीम": 10,
+      "नेपियर घास": 8,
+      "अल्फाल्फा": 12,
+      "ज्वार चारा": 9,
+      "मक्का चारा": 11,
+      "तुलसी": 28,
+      "एलोवेरा": 18,
+      "अश्वगंधा": 40,
+      "लेमनग्रास": 24,
+      "पुदीना": 16
+    };
+
+    const productType = document.getElementById("product-type");
+    const productName = document.getElementById("product-name");
+    const amountInput = document.getElementById("amount");
+    const quantityInput = document.getElementById("quantity");
+    const priceInput = document.getElementById("price");
+    const commitmentBox = document.getElementById("commitment-box");
+    const marketPriceText = document.getElementById("market-price");
+    const commitmentMessage = document.getElementById("commitment-message");
+
+    function formatNumber(value) {
+      return new Intl.NumberFormat("en-IN", {
+        maximumFractionDigits: 0
+      }).format(value);
+    }
+
+    function getSelectedMarketPrice() {
+      const selectedProductText = productName.options[productName.selectedIndex]
+        ? productName.options[productName.selectedIndex].textContent
+        : "";
+      if (selectedProductText && marketPrices[selectedProductText]) {
+        return marketPrices[selectedProductText];
+      }
+
+      const manualPrice = Number(priceInput.value);
+      if (manualPrice > 0) {
+        return manualPrice;
+      }
+
+      return 25;
+    }
+
+    function updateCommitmentBox() {
+      const marketPrice = getSelectedMarketPrice();
+      const amount = Number(amountInput.value);
+      const enteredPrice = Number(priceInput.value);
+
+      if (!(amount > 0) || !(enteredPrice > 0)) {
+        commitmentBox.classList.add("is-hidden");
+        return;
+      }
+
+      const baseQuantity = amount / marketPrice;
+      const commitmentQuantity = Math.round(baseQuantity);
+      const bufferedCommitment = Math.round(commitmentQuantity * 1.5);
+
+      commitmentBox.classList.remove("is-hidden");
+      quantityInput.value = formatNumber(commitmentQuantity) + " किग्रा";
+      marketPriceText.textContent = "वर्तमान बाजार मूल्य: ₹" + formatNumber(marketPrice) + "/किग्रा";
+      commitmentMessage.textContent = "वर्तमान बाजार मूल्य ₹" + formatNumber(marketPrice) + "/किग्रा के आधार पर, आप लगभग " + formatNumber(commitmentQuantity) + " किग्रा फसल देने के लिए प्रतिबद्ध होंगे। 50% सुरक्षा बफर सहित, कुल प्रतिबद्धता " + formatNumber(bufferedCommitment) + " किग्रा हो जाती है।";
+    }
+
+    function setTheme(theme) {
+      const isLight = theme === "light";
+      body.setAttribute("data-theme", theme);
+      themeToggle.setAttribute("aria-pressed", String(isLight));
+      toggleLabel.textContent = isLight ? "डार्क मोड" : "लाइट मोड";
+    }
+
+    function resetProductName(placeholder) {
+      productName.innerHTML = "";
+      const option = document.createElement("option");
+      option.value = "";
+      option.textContent = placeholder;
+      option.selected = true;
+      productName.appendChild(option);
+    }
+
+    productType.addEventListener("change", function () {
+      const selectedType = this.value;
+      const items = productsByType[selectedType];
+
+      if (!selectedType || !items) {
+        productName.disabled = true;
+        resetProductName("पहले उत्पाद प्रकार चुनें");
+        return;
+      }
+
+      productName.disabled = false;
+      resetProductName("उत्पाद का नाम चुनें");
+
+      items.forEach(function (item) {
+        const option = document.createElement("option");
+        option.value = item;
+        option.textContent = item;
+        productName.appendChild(option);
+      });
+
+      updateCommitmentBox();
+    });
+
+    productName.addEventListener("change", updateCommitmentBox);
+    amountInput.addEventListener("input", updateCommitmentBox);
+    priceInput.addEventListener("input", updateCommitmentBox);
+
+    themeToggle.addEventListener("click", function () {
+      const nextTheme = body.getAttribute("data-theme") === "dark" ? "light" : "dark";
+      setTheme(nextTheme);
+    });
+
+    setTheme("dark");
+    updateCommitmentBox();
+  </script>
 </body>
 </html>
