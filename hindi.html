@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light dark">
+  <title>KrishiSetu | फसल जोड़ें</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="theme.css">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true">&#127806;</div>
+        <div></div>
+      </div>
+
+      <button class="theme-toggle" id="themeToggle" type="button" aria-label="थीम बदलें">
+        <span class="theme-toggle-text">डार्क मोड</span>
+      </button>
+    </header>
+
+    <main class="page">
+      <section class="hero-copy">
+        <p class="eyebrow">नई फसल सूची</p>
+        <h2>अपनी फसल बेचें</h2>
+        <p class="hero-text">अपनी फसल का विवरण भरें और खरीदार तक पहुँचें</p>
+      </section>
+
+      <section class="form-card">
+        <div class="card-header">
+          <div>
+            <p class="section-tag">फसल जानकारी</p>
+            <h3>फसल जोड़ें</h3>
+          </div>
+          <div class="status-pill">
+            <span class="status-dot"></span>
+            <span>किसान अनुकूल फ़ॉर्म</span>
+          </div>
+        </div>
+
+        <form class="crop-form" data-lang="hi" novalidate>
+          <div class="form-grid">
+            <div class="field-group field-group-full">
+              <div class="triple-grid">
+                <div class="field-group">
+                  <label for="category">उत्पाद प्रकार</label>
+                  <select id="category" name="category" required>
+                    <option value="">उत्पाद प्रकार चुनें</option>
+                  </select>
+                  <p class="error-text" data-error-for="category"></p>
+                </div>
+
+                <div class="field-group">
+                  <label for="cropName">उत्पाद नाम</label>
+                  <select id="cropName" name="cropName" required disabled>
+                    <option value="">पहले उत्पाद प्रकार चुनें</option>
+                  </select>
+                  <p class="helper-text" data-crop-helper>उपलब्ध फसलें देखने के लिए पहले उत्पाद प्रकार चुनें।</p>
+                  <p class="error-text" data-error-for="cropName"></p>
+                </div>
+
+                <div class="field-group">
+                  <label for="subGroup">उप समूह</label>
+                  <select id="subGroup" name="subGroup" required disabled>
+                    <option value="">पहले उत्पाद नाम चुनें</option>
+                  </select>
+                  <p class="helper-text" data-subgroup-helper>उपलब्ध किस्में देखने के लिए पहले उत्पाद नाम चुनें।</p>
+                  <p class="error-text" data-error-for="subGroup"></p>
+                </div>
+              </div>
+            </div>
+
+            <div class="field-group">
+              <label for="quantity">मात्रा (किलो)</label>
+              <input id="quantity" name="quantity" type="number" min="0.01" step="0.01" required>
+              <p class="error-text" data-error-for="quantity"></p>
+            </div>
+
+            <div class="field-group">
+              <label for="pricePerKg">प्रति किलो कीमत (₹)</label>
+              <input id="pricePerKg" name="pricePerKg" type="number" min="0.01" step="0.01" required>
+              <p class="error-text" data-error-for="pricePerKg"></p>
+            </div>
+
+            <div class="field-group field-group-full">
+              <label for="totalPrice">कुल कीमत</label>
+              <input id="totalPrice" name="totalPrice" type="text" value="₹0.00" readonly>
+              <p class="helper-text" data-total-helper>कुल कीमत मात्रा और प्रति किलो कीमत के आधार पर अपने आप अपडेट होगी।</p>
+            </div>
+
+            <div class="field-group field-group-full">
+              <label for="imageUpload">फोटो अपलोड करें</label>
+              <p class="helper-text">अधिकतम 3 फोटो अपलोड करें</p>
+              <label class="upload-box" for="imageUpload">
+                <input id="imageUpload" name="imageUpload" type="file" accept=".jpg,.jpeg,.png,image/jpeg,image/png" multiple>
+                <div class="upload-content" data-upload-placeholder>
+                  <div class="upload-icon">&#128247;</div>
+                  <p>फसल की फोटो अपलोड करने के लिए टैप करें</p>
+                  <span>PNG, JPG अधिकतम 3 फोटो</span>
+                </div>
+              </label>
+              <div class="preview-grid" data-image-preview-list></div>
+            </div>
+
+            <div class="field-group field-group-full">
+              <label for="videoUpload">वीडियो अपलोड करें (वैकल्पिक)</label>
+              <p class="helper-text">वीडियो खरीदारों का भरोसा बढ़ाता है</p>
+              <label class="upload-box upload-box-compact" for="videoUpload">
+                <input id="videoUpload" name="videoUpload" type="file" accept=".mp4,video/mp4">
+                <div class="upload-content upload-content-compact" data-video-placeholder>
+                  <div class="upload-icon">&#127909;</div>
+                  <p>फसल का वीडियो अपलोड करने के लिए टैप करें</p>
+                  <span>केवल MP4 फॉर्मेट</span>
+                </div>
+              </label>
+              <div class="video-preview" data-video-preview hidden>
+                <video controls playsinline data-video-element hidden></video>
+                <p class="video-file-name" data-video-name></p>
+                <button class="preview-remove" data-remove-video type="button">वीडियो हटाएं</button>
+              </div>
+            </div>
+
+            <div class="field-group">
+              <label for="qualityGrade">गुणवत्ता ग्रेड</label>
+              <select id="qualityGrade" name="qualityGrade" required>
+                <option value="">गुणवत्ता ग्रेड चुनें</option>
+                <option value="Premium">प्रीमियम</option>
+                <option value="A">A</option>
+                <option value="B">B</option>
+                <option value="C">C</option>
+              </select>
+              <p class="error-text" data-error-for="qualityGrade"></p>
+            </div>
+
+            <div class="field-group">
+              <label for="harvestDate">कटाई की तारीख</label>
+              <input id="harvestDate" name="harvestDate" type="month" min="2024-01" max="2050-12" required>
+              <p class="error-text" data-error-for="harvestDate"></p>
+            </div>
+          </div>
+
+          <div class="feedback-row">
+            <p class="form-message" data-form-message aria-live="polite"></p>
+          </div>
+
+          <div class="action-row">
+            <button class="btn btn-secondary" type="reset">रीसेट करें</button>
+            <button class="btn btn-primary" type="submit">फसल जोड़ें</button>
+          </div>
+        </form>
+      </section>
+    </main>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
