@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>कृषि सेतु प्रोफ़ाइल</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body data-page="edit-profile">
+
+  <!-- वॉटरमार्क -->
+  <div class="watermark-bg" aria-hidden="true">
+    <svg viewBox="0 0 900 600" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <style>
+          .wm { fill: #2E7D32; opacity: var(--watermark-opacity, 0.045); font-family: Arial, sans-serif; font-weight: 800; }
+        </style>
+      </defs>
+      <text class="wm" font-size="52" x="30"  y="100">कृषि सेतु</text>
+      <text class="wm" font-size="52" x="420" y="100">कृषि सेतु</text>
+      <text class="wm" font-size="52" x="30"  y="220">कृषि सेतु</text>
+      <text class="wm" font-size="52" x="420" y="220">कृषि सेतु</text>
+      <text class="wm" font-size="52" x="30"  y="340">कृषि सेतु</text>
+      <text class="wm" font-size="52" x="420" y="340">कृषि सेतु</text>
+      <text class="wm" font-size="52" x="30"  y="460">कृषि सेतु</text>
+      <text class="wm" font-size="52" x="420" y="460">कृषि सेतु</text>
+      <text class="wm" font-size="52" x="30"  y="580">कृषि सेतु</text>
+      <text class="wm" font-size="52" x="420" y="580">कृषि सेतु</text>
+      <text class="wm" font-size="36" x="200" y="160">🌱</text>
+      <text class="wm" font-size="36" x="600" y="160">🌱</text>
+      <text class="wm" font-size="36" x="200" y="400">🌱</text>
+      <text class="wm" font-size="36" x="600" y="400">🌱</text>
+    </svg>
+  </div>
+
+  <!-- डार्क/लाइट मोड टॉगल -->
+  <div class="theme-toggle-bar">
+    <button class="theme-toggle" id="themeToggle" aria-label="डार्क/लाइट मोड बदलें" title="थीम बदलें">
+      <span class="theme-toggle-icon">☀️</span>
+      <span class="theme-toggle-icon">🌙</span>
+      <span class="theme-toggle-knob"></span>
+    </button>
+  </div>
+
+  <main class="app-shell">
+    <form class="profile-card form-card" id="profileForm" novalidate>
+      <div class="brand-watermark" aria-hidden="true">कृषि सेतु</div>
+
+      <div class="photo-editor">
+        <div class="avatar avatar-large" id="photoPreview">
+          <span class="avatar-initials" id="editInitials">उ</span>
+        </div>
+        <label class="btn btn-upload" for="profilePhotoInput">
+          <span aria-hidden="true">+</span>
+          फ़ोटो अपलोड करें
+        </label>
+        <input class="sr-only" id="profilePhotoInput" name="profilePhoto" type="file" accept=".jpg,.jpeg,.png,image/jpeg,image/png">
+        <button class="btn btn-danger btn-small" id="removePhotoBtn" type="button" hidden>फ़ोटो हटाएं</button>
+        <p class="error photo-error" id="profilePhotoError"></p>
+      </div>
+
+      <div class="section-block">
+        <h3>व्यक्तिगत विवरण</h3>
+        <div class="form-grid">
+          <div class="field">
+            <label for="fullName">पूरा नाम</label>
+            <input id="fullName" name="fullName" type="text" maxlength="50" required placeholder="अपना पूरा नाम दर्ज करें">
+            <small>नाम आपके दस्तावेज़ के अनुसार होना चाहिए</small>
+            <p class="error" id="fullNameError"></p>
+          </div>
+
+          <div class="field">
+            <label for="dob">जन्म तिथि</label>
+            <input id="dob" name="dob" type="date" required>
+            <small>जन्म तिथि आपके दस्तावेज़ के अनुसार होनी चाहिए</small>
+            <p class="error" id="dobError"></p>
+          </div>
+
+          <div class="field">
+            <label for="gender">लिंग</label>
+            <select id="gender" name="gender" required>
+              <option value="">लिंग चुनें</option>
+              <option value="Male">पुरुष</option>
+              <option value="Female">महिला</option>
+              <option value="Other">अन्य</option>
+            </select>
+            <p class="error" id="genderError"></p>
+          </div>
+
+          <div class="field mobile-field">
+            <label for="mobile">मोबाइल नंबर</label>
+            <input id="mobile" name="mobile" type="tel" inputmode="numeric" maxlength="10" required placeholder="10 अंकों का मोबाइल नंबर">
+            <div class="otp-panel" id="otpPanel" hidden>
+              <div class="otp-row">
+                <input id="otpInput" type="text" inputmode="numeric" maxlength="6" placeholder="OTP दर्ज करें">
+                <button class="btn btn-small" id="verifyOtpBtn" type="button">सत्यापित करें</button>
+              </div>
+              <div class="otp-actions">
+                <button class="link-button" id="resendOtpBtn" type="button">OTP पुनः भेजें</button>
+                <span id="otpTimer">30s</span>
+              </div>
+            </div>
+            <p class="status-text" id="mobileStatus"></p>
+            <p class="error" id="mobileError"></p>
+          </div>
+
+          <div class="field">
+            <label for="state">राज्य</label>
+            <select id="state" name="state" required>
+              <option value="">राज्य चुनें</option>
+            </select>
+            <p class="error" id="stateError"></p>
+          </div>
+
+          <div class="field">
+            <label for="district">जिला</label>
+            <select id="district" name="district" required>
+              <option value="">जिला चुनें</option>
+            </select>
+            <p class="error" id="districtError"></p>
+          </div>
+
+          <div class="field field-wide">
+            <label for="address">पता</label>
+            <input id="address" name="address" type="text" required placeholder="अपना पूरा पता दर्ज करें">
+            <p class="error" id="addressError"></p>
+          </div>
+
+          <div class="field">
+            <label for="userType">उपयोगकर्ता प्रकार</label>
+            <select id="userType" name="userType" required>
+              <option value="">उपयोगकर्ता प्रकार चुनें</option>
+              <option value="Farmer">किसान</option>
+              <option value="Buyer">खरीदार</option>
+            </select>
+            <p class="error" id="userTypeError"></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-block conditional-fields" id="farmerFields" hidden>
+        <h3>किसान विवरण</h3>
+        <div class="form-grid">
+          <div class="field">
+            <label for="farmerType">किसान प्रकार</label>
+            <select id="farmerType" name="farmerType">
+              <option value="">किसान प्रकार चुनें</option>
+              <option value="Small">लघु</option>
+              <option value="Medium">मध्यम</option>
+              <option value="Large">बड़ा</option>
+            </select>
+            <p class="error" id="farmerTypeError"></p>
+          </div>
+
+          <div class="field land-area-field">
+            <label for="landArea">भूमि क्षेत्र</label>
+            <div class="land-area-control">
+              <input id="landArea" name="landArea" type="text" inputmode="decimal" placeholder="1000">
+              <select id="landUnit" name="landUnit" aria-label="भूमि क्षेत्र इकाई">
+                <option value="">इकाई</option>
+                <option value="Acre">एकड़</option>
+                <option value="Hectare">हेक्टेयर</option>
+                <option value="Bigha">बीघा</option>
+                <option value="Cent">सेंट</option>
+                <option value="Guntha">गुंठा</option>
+                <option value="Katha">कट्ठा</option>
+              </select>
+            </div>
+            <p class="error" id="landAreaError"></p>
+            <p class="error" id="landUnitError"></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-block conditional-fields" id="buyerFields" hidden>
+        <h3>खरीदार विवरण</h3>
+        <div class="form-grid">
+          <div class="field">
+            <label for="buyerType">खरीदार प्रकार</label>
+            <select id="buyerType" name="buyerType">
+              <option value="">खरीदार प्रकार चुनें</option>
+              <option value="Retailer">खुदरा विक्रेता</option>
+              <option value="Wholesaler">थोक विक्रेता</option>
+              <option value="Company">कंपनी</option>
+            </select>
+            <p class="error" id="buyerTypeError"></p>
+          </div>
+
+          <div class="field">
+            <label for="businessName">व्यवसाय का नाम</label>
+            <input id="businessName" name="businessName" type="text" placeholder="व्यवसाय का नाम दर्ज करें">
+            <p class="error" id="businessNameError"></p>
+          </div>
+
+          <div class="field field-wide">
+            <label for="businessAddress">व्यवसाय का पता</label>
+            <input id="businessAddress" name="businessAddress" type="text" placeholder="व्यवसाय का पूरा पता दर्ज करें">
+            <p class="error" id="businessAddressError"></p>
+          </div>
+
+          <div class="field">
+            <label for="gstNumber">GST नंबर</label>
+            <input id="gstNumber" name="gstNumber" type="text" maxlength="15" placeholder="GST नंबर दर्ज करें">
+            <small>कंपनी खरीदारों के लिए GST नंबर आवश्यक है</small>
+            <p class="error" id="gstNumberError"></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-block">
+        <h3>दस्तावेज़</h3>
+        <div class="form-grid">
+          <div class="field">
+            <label for="documentType">दस्तावेज़ प्रकार</label>
+            <select id="documentType" name="documentType" required>
+              <option value="">दस्तावेज़ प्रकार चुनें</option>
+              <option value="Aadhaar">आधार</option>
+              <option value="PAN">PAN</option>
+              <option value="Voter ID">मतदाता पहचान पत्र</option>
+              <option value="Driving License">ड्राइविंग लाइसेंस</option>
+            </select>
+            <p class="error" id="documentTypeError"></p>
+          </div>
+
+          <div class="field field-wide">
+            <label for="documentFile">दस्तावेज़ अपलोड करें</label>
+            <input id="documentFile" name="documentFile" type="file" accept=".jpg,.jpeg,.png,.pdf,image/jpeg,image/png,application/pdf">
+            <div class="document-preview upload-preview" id="documentPreview">कोई दस्तावेज़ नहीं चुना गया</div>
+            <button class="btn btn-danger btn-small remove-document-btn" id="removeDocumentBtn" type="button" hidden>दस्तावेज़ हटाएं</button>
+            <p class="error" id="documentFileError"></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <a class="btn btn-ghost" href="profile.html">रद्द करें</a>
+        <button class="btn btn-reset" id="resetFormBtn" type="button">रीसेट करें</button>
+        <button class="btn btn-save" type="submit">प्रोफ़ाइल सहेजें</button>
+      </div>
+    </form>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

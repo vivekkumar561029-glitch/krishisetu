@@ -1,0 +1,246 @@
+:root {
+  --primary-green: #2e7d32;
+  --light-green: #66bb6a;
+  --accent-yellow: #fbc02d;
+  --white: #ffffff;
+  --light-background: #f5f7f6;
+  --text-dark: #1b1b1b;
+  --secondary-text: #6b7280;
+  --border-color: #d1d5db;
+  --shadow-soft: 0px 2px 8px rgba(0, 0, 0, 0.05);
+
+  /* Light mode overlay — soft, lets bright background show */
+  --overlay-gradient: linear-gradient(135deg, rgba(16, 24, 16, 0.30), rgba(46, 125, 50, 0.28));
+
+  /* Card tokens — light */
+  --card-bg: rgba(255, 255, 255, 0.97);
+  --card-text: #1b1b1b;
+  --card-secondary-text: #6b7280;
+  --lang-btn-bg: #edf7ee;
+  --lang-btn-text: #1b1b1b;
+
+  /* Toggle */
+  --toggle-bg: rgba(25, 25, 25, 0.52);
+  --toggle-text: #ffffff;
+  --toggle-border: rgba(255, 255, 255, 0.28);
+}
+
+[data-theme="dark"] {
+  /* Dark mode overlay — very heavy, makes background look dark */
+  --overlay-gradient: linear-gradient(135deg, rgba(4, 10, 4, 0.88), rgba(10, 30, 12, 0.82));
+
+  --card-bg: rgba(20, 36, 21, 0.96);
+  --card-text: #e8f5e9;
+  --card-secondary-text: #9db89e;
+  --lang-btn-bg: #263d27;
+  --lang-btn-text: #ddeede;
+  --border-color: #375438;
+
+  --toggle-bg: rgba(220, 220, 220, 0.14);
+  --toggle-text: #ffffff;
+  --toggle-border: rgba(255, 255, 255, 0.28);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: "Poppins", sans-serif;
+  background-color: var(--light-background);
+  color: var(--card-text);
+}
+
+button,
+input {
+  font: inherit;
+}
+
+/* ── Rectangular Theme Toggle — top right ── */
+.theme-toggle {
+  position: fixed;
+  top: 14px;
+  right: 18px;
+  z-index: 200;
+  padding: 8px 20px;
+  border-radius: 7px;
+  border: 1px solid var(--toggle-border);
+  background: var(--toggle-bg);
+  color: var(--toggle-text);
+  font-family: "Poppins", sans-serif;
+  font-size: 0.83rem;
+  font-weight: 500;
+  letter-spacing: 0.015em;
+  cursor: pointer;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: background 0.25s ease, box-shadow 0.2s ease, transform 0.15s ease;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.26);
+  white-space: nowrap;
+  user-select: none;
+}
+
+.theme-toggle:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 5px 18px rgba(0, 0, 0, 0.32);
+}
+
+/* ── Page Shell ── */
+.page-shell {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 16px;
+  background-image: url("watermark\ image.jpeg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.watermark-logo {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  z-index: 1;
+  font-size: 14px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.7);
+  letter-spacing: 0.04em;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: var(--overlay-gradient);
+  transition: background 0.5s ease;
+}
+
+/* ── Card ── */
+.auth-card {
+  position: relative;
+  z-index: 1;
+  width: min(100%, 420px);
+  background: var(--card-bg);
+  padding: 24px 16px;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  transition: background 0.35s ease, box-shadow 0.35s ease;
+}
+
+.brand-mark {
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 16px;
+  border-radius: 18px;
+  background: linear-gradient(135deg, var(--accent-yellow), var(--light-green));
+  box-shadow: 0 10px 24px rgba(46, 125, 50, 0.2);
+}
+
+h1 {
+  margin: 0 0 8px;
+  font-size: clamp(1.8rem, 4vw, 2.3rem);
+  line-height: 1.2;
+  color: var(--card-text);
+  transition: color 0.3s ease;
+}
+
+p {
+  margin: 0 0 24px;
+  color: var(--card-secondary-text);
+  font-size: 0.98rem;
+  transition: color 0.3s ease;
+}
+
+/* ── Language Buttons ── */
+.language-group {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.language-button,
+.primary-button {
+  width: 100%;
+  border: none;
+  border-radius: 8px;
+  padding: 14px 16px;
+  cursor: pointer;
+}
+
+.language-button {
+  flex: 1 1 0;
+  min-width: 0;
+  min-height: 110px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  background: var(--lang-btn-bg);
+  color: var(--lang-btn-text);
+  font-weight: 600;
+  border: 2px solid transparent;
+  border-radius: 10px;
+  transition: background 0.3s ease, color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.language-text {
+  font-size: 1rem;
+}
+
+.language-button.active {
+  background-color: var(--light-green);
+  color: var(--white);
+  border: 2px solid var(--primary-green);
+  transform: scale(1.05);
+}
+
+.primary-button {
+  background-color: var(--primary-green);
+  color: var(--white);
+  font-weight: 600;
+  box-shadow: 0 12px 24px rgba(46, 125, 50, 0.22);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+
+.language-button:hover {
+  transform: translateY(-1px) scale(1.02);
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.12);
+}
+
+.language-button.active:hover {
+  transform: translateY(-1px) scale(1.05);
+}
+
+.primary-button:hover {
+  background-color: #25682a;
+  transform: translateY(-1px);
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.12);
+}
+
+@media (max-width: 480px) {
+  .auth-card {
+    padding: 20px 16px;
+  }
+
+  .language-button,
+  .primary-button {
+    padding: 12px 16px;
+  }
+
+  .language-button {
+    min-height: 96px;
+  }
+
+  .theme-toggle {
+    top: 10px;
+    right: 12px;
+    padding: 6px 14px;
+    font-size: 0.78rem;
+  }
+}

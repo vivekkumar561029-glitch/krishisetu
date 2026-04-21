@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>मेरी प्रोफ़ाइल | कृषि सेतु</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body data-page="profile">
+
+  <!-- वॉटरमार्क -->
+  <div class="watermark-bg" aria-hidden="true">
+    <svg viewBox="0 0 900 600" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <style>
+          .wm { fill: #2E7D32; opacity: var(--watermark-opacity, 0.045); font-family: Arial, sans-serif; font-weight: 800; }
+        </style>
+      </defs>
+      <text class="wm" font-size="52" x="30"  y="100">कृषि सेतु</text>
+      <text class="wm" font-size="52" x="420" y="100">कृषि सेतु</text>
+      <text class="wm" font-size="52" x="30"  y="220">कृषि सेतु</text>
+      <text class="wm" font-size="52" x="420" y="220">कृषि सेतु</text>
+      <text class="wm" font-size="52" x="30"  y="340">कृषि सेतु</text>
+      <text class="wm" font-size="52" x="420" y="340">कृषि सेतु</text>
+      <text class="wm" font-size="52" x="30"  y="460">कृषि सेतु</text>
+      <text class="wm" font-size="52" x="420" y="460">कृषि सेतु</text>
+      <text class="wm" font-size="52" x="30"  y="580">कृषि सेतु</text>
+      <text class="wm" font-size="52" x="420" y="580">कृषि सेतु</text>
+      <text class="wm" font-size="36" x="200" y="160">🌱</text>
+      <text class="wm" font-size="36" x="600" y="160">🌱</text>
+      <text class="wm" font-size="36" x="200" y="400">🌱</text>
+      <text class="wm" font-size="36" x="600" y="400">🌱</text>
+    </svg>
+  </div>
+
+  <!-- डार्क/लाइट मोड टॉगल -->
+  <div class="theme-toggle-bar">
+    <button class="theme-toggle" id="themeToggle" aria-label="डार्क/लाइट मोड बदलें" title="थीम बदलें">
+      <span class="theme-toggle-icon">☀️</span>
+      <span class="theme-toggle-icon">🌙</span>
+      <span class="theme-toggle-knob"></span>
+    </button>
+  </div>
+
+  <main class="app-shell">
+    <section class="profile-card">
+      <div class="profile-topbar">
+        <div>
+          <p class="eyebrow">कृषि सेतु</p>
+          <h1>मेरी प्रोफ़ाइल</h1>
+        </div>
+        <button class="btn btn-edit" id="editProfileBtn" type="button" aria-label="प्रोफ़ाइल संपादित करें">
+          संपादित करें
+        </button>
+      </div>
+
+      <div class="profile-hero">
+        <div class="avatar avatar-large" id="profilePhotoView">
+          <span class="avatar-initials" id="profileInitials">उ</span>
+        </div>
+        <h2 id="profileNameHeading">आपका नाम</h2>
+        <p id="profileUserTypeHeading">प्रोफ़ाइल विवरण</p>
+      </div>
+
+      <div class="section-block">
+        <h3>व्यक्तिगत विवरण</h3>
+        <div class="details-grid">
+          <div class="detail-item">
+            <span>पूरा नाम</span>
+            <strong id="viewFullName">-</strong>
+          </div>
+          <div class="detail-item">
+            <span>जन्म तिथि</span>
+            <strong id="viewDob">-</strong>
+          </div>
+          <div class="detail-item">
+            <span>लिंग</span>
+            <strong id="viewGender">-</strong>
+          </div>
+          <div class="detail-item">
+            <span>मोबाइल नंबर</span>
+            <strong id="viewMobile">-</strong>
+          </div>
+          <div class="detail-item">
+            <span>राज्य</span>
+            <strong id="viewState">-</strong>
+          </div>
+          <div class="detail-item">
+            <span>जिला</span>
+            <strong id="viewDistrict">-</strong>
+          </div>
+          <div class="detail-item detail-wide">
+            <span>पता</span>
+            <strong id="viewAddress">-</strong>
+          </div>
+          <div class="detail-item">
+            <span>उपयोगकर्ता प्रकार</span>
+            <strong id="viewUserType">-</strong>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-block conditional-view" id="farmerDetailsView" hidden>
+        <h3>किसान विवरण</h3>
+        <div class="details-grid">
+          <div class="detail-item">
+            <span>किसान प्रकार</span>
+            <strong id="viewFarmerType">-</strong>
+          </div>
+          <div class="detail-item">
+            <span>भूमि क्षेत्र</span>
+            <strong id="viewLandArea">-</strong>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-block conditional-view" id="buyerDetailsView" hidden>
+        <h3>खरीदार विवरण</h3>
+        <div class="details-grid">
+          <div class="detail-item">
+            <span>खरीदार प्रकार</span>
+            <strong id="viewBuyerType">-</strong>
+          </div>
+          <div class="detail-item">
+            <span>व्यवसाय का नाम</span>
+            <strong id="viewBusinessName">-</strong>
+          </div>
+          <div class="detail-item detail-wide">
+            <span>व्यवसाय का पता</span>
+            <strong id="viewBusinessAddress">-</strong>
+          </div>
+          <div class="detail-item">
+            <span>GST नंबर</span>
+            <strong id="viewGstNumber">-</strong>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-block">
+        <h3>दस्तावेज़</h3>
+        <div class="details-grid">
+          <div class="detail-item">
+            <span>दस्तावेज़ प्रकार</span>
+            <strong id="viewDocumentType">-</strong>
+          </div>
+          <div class="detail-item detail-wide">
+            <span>अपलोड किया गया दस्तावेज़</span>
+            <div class="document-preview" id="viewDocumentPreview">कोई दस्तावेज़ अपलोड नहीं किया गया</div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
