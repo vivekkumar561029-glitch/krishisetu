@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KrishiSetu</title>
+  <link rel="stylesheet" href="englishhomepage.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<body class="light">
+
+<!-- Sidebar -->
+<div class="sidebar" id="sidebar">
+  <h2>KrishiSetu</h2>
+  <p class="username">👤 Abhishek</p>
+
+  <div class="menu-item" onclick="scrollToSection('home')">Home</div>
+  <div class="menu-item">My Profile</div>
+  <div class="menu-item" onclick="scrollToSection('about')">About Us</div>
+  <div class="menu-item" onclick="scrollToSection('how')">How to Use App</div>
+  <div class="menu-item" onclick="scrollToSection('support')">Support</div>
+
+  <div class="menu-item logout">Logout</div>
+</div>
+
+<!-- Main -->
+<div class="main" id="main">
+
+  <!-- Header -->
+  <div class="header">
+    <span class="menu-btn" onclick="toggleSidebar()">☰</span>
+    <div class="logo">🌱 KrishiSetu</div>
+    <button class="btn" id="themeBtn" onclick="toggleTheme()">Dark</button>
+  </div>
+
+  <!-- IMAGE AREA -->
+  <!-- 👉 Add your banner image here if needed -->
+
+  <!-- Cards -->
+  <section class="grid" id="home">
+    <div class="card"><i data-lucide="plus-circle"></i><p>Add Crop</p></div>
+    <div class="card"><i data-lucide="shopping-cart"></i><p>Buy Crop</p></div>
+    <div class="card"><i data-lucide="search"></i><p>Category Search</p></div>
+    <div class="card"><i data-lucide="calendar"></i><p>Advance Booking</p></div>
+  </section>
+
+  <!-- About -->
+  <section id="about" class="section about reveal">
+    <h2>🌱 About Us</h2>
+
+    <div class="info-block">
+      <p>
+        We are building a platform that empowers farmers by connecting them directly with buyers such as factories, businesses, and individuals—eliminating the need for middlemen and ensuring fair, transparent pricing.
+      </p>
+    </div>
+
+    <div class="info-block">
+      <p>
+        Our mission is to help farmers maximize their earnings while giving buyers access to high-quality produce at competitive rates.
+      </p>
+    </div>
+
+    <div class="info-block">
+      <p>
+        We also provide a financing solution where lenders support farmers, and farmers agree to sell part of their harvest at pre-decided prices.
+      </p>
+    </div>
+
+    <div class="info-block">
+      <p>
+        This creates a sustainable and profitable agricultural ecosystem built on trust and innovation.
+      </p>
+    </div>
+  </section>
+
+  <!-- Support -->
+  <section id="support" class="section support reveal">
+  <h2>📞 Support</h2>
+
+  <div class="info-block">
+    <h3>📧 Email Support</h3>
+    <p>
+       vivek: vivekleader@krishisetu.com<br>
+      Tanay: tanay@krishisetu.com<br>
+      Uday: uday@krishisetu.com<br>
+      Yash: yash@krishisetu.com<br>
+      Sujal: sujal@krishisetu.com<br>
+      
+    </p>
+  </div>
+
+  <div class="info-block">
+    <h3>📱 Phone Support</h3>
+    <p>
+      +91 98765 43210<br>
+      +91 91234 56789
+    </p>
+  </div>
+
+</section>
+
+  <!-- How to Use -->
+  <section id="how" class="section how reveal">
+    <h2>⚡ How to Use App</h2>
+
+    <div class="feature">
+      <h3>🌱 Sell</h3>
+      <p>Farmers can add crops with details like quantity and price.</p>
+    </div>
+
+    <div class="feature">
+      <h3>🔍 Search</h3>
+      <p>Buyers can easily find crops using category filters.</p>
+    </div>
+
+    <div class="feature">
+      <h3>📅 Book</h3>
+      <p>Reserve crops in advance at agreed prices.</p>
+    </div>
+
+    <div class="feature">
+      <h3>🛒 Buy</h3>
+      <p>Purchase directly from farmers without middlemen.</p>
+    </div>
+
+    <div class="feature">
+      <h3>✨ Experience</h3>
+      <p>Enjoy smooth, transparent and efficient trading.</p>
+    </div>
+
+  </section>
+
+</div>
+
+<script src="englishhomepage.js"></script>
+</body>
+</html>
