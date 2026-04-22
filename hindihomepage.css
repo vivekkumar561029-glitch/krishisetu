@@ -1,0 +1,219 @@
+* {
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family: 'Segoe UI', Tahoma, sans-serif;
+}
+
+body {
+  display:flex;
+  transition:0.5s;
+}
+
+/* ===== THEMES ===== */
+body.light {
+  background:#ffffff;
+  color:#333;
+}
+
+body.dark {
+  background: linear-gradient(135deg,#052e16,#064e3b,#065f46);
+  color:#e5e7eb;
+}
+
+/* ===== SIDEBAR ===== */
+.sidebar {
+  width:250px;
+  position:fixed;
+  height:100%;
+  padding:20px;
+  transform:translateX(-100%);
+  transition:0.4s;
+  background:#f9fafb;
+}
+
+body.dark .sidebar {
+  background:rgba(255,255,255,0.05);
+  backdrop-filter: blur(10px);
+}
+
+.sidebar.active { transform:translateX(0); }
+
+.username {
+  margin:10px 0;
+  font-weight:bold;
+  font-size:15px;
+}
+
+/* MENU */
+.menu-item {
+  padding:10px;
+  margin:6px 0;
+  border-radius:10px;
+  cursor:pointer;
+  transition:0.3s;
+}
+
+.menu-item:hover {
+  background:#d1fae5;
+}
+
+body.dark .menu-item:hover {
+  background:rgba(34,197,94,0.3);
+}
+
+/* ===== MAIN ===== */
+.main {
+  flex:1;
+  padding:20px;
+  transition:0.4s;
+}
+
+.main.shift { margin-left:250px; }
+
+/* ===== HEADER ===== */
+.header {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:25px;
+}
+
+.logo {
+  font-size:22px;
+  font-weight:700;
+}
+
+.menu-btn {
+  cursor:pointer;
+  font-size:22px;
+}
+
+/* BUTTON */
+.btn {
+  padding:8px 16px;
+  background:#16a34a;
+  color:white;
+  border:none;
+  border-radius:8px;
+  cursor:pointer;
+  transition:0.3s;
+}
+
+.btn:hover {
+  background:#15803d;
+  transform:scale(1.05);
+}
+
+/* ===== GRID ===== */
+.grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+  gap:20px;
+}
+
+.card {
+  padding:30px;
+  background:#f3f4f6;
+  text-align:center;
+  border-radius:18px;
+  transition:0.3s;
+}
+
+body.dark .card {
+  background:rgba(255,255,255,0.05);
+}
+
+.card:hover {
+  transform:translateY(-5px) scale(1.05);
+  box-shadow:0 0 25px rgba(34,197,94,0.4);
+}
+
+/* ===== SECTIONS ===== */
+.section {
+  margin-top:60px;
+  padding:30px;
+  border-radius:20px;
+  line-height:1.7;
+  backdrop-filter: blur(8px);
+  box-shadow:0 10px 30px rgba(0,0,0,0.08);
+  transition:0.3s;
+}
+
+/* HEADINGS */
+.section h2 {
+  font-size:26px;
+  margin-bottom:15px;
+  font-weight:700;
+}
+
+/* PARAGRAPH */
+.section p {
+  font-size:16px;
+  opacity:0.9;
+}
+
+/* ===== MODERN BLOCKS ===== */
+.info-block,
+.feature {
+  margin-top:15px;
+  padding:15px;
+  border-radius:14px;
+  background:rgba(255,255,255,0.5);
+  transition:0.3s;
+}
+
+.info-block:hover,
+.feature:hover {
+  transform:translateX(6px);
+  background:rgba(34,197,94,0.15);
+}
+
+/* ===== COLORS ===== */
+.about {
+  background: linear-gradient(135deg,#ecfdf5,#d1fae5);
+  border-left:6px solid #22c55e;
+}
+
+.support {
+  background: linear-gradient(135deg,#eff6ff,#dbeafe);
+  border-left:6px solid #3b82f6;
+}
+
+.how {
+  background: linear-gradient(135deg,#fffbeb,#fef3c7);
+  border-left:6px solid #eab308;
+}
+
+/* ===== DARK MODE ===== */
+body.dark .section {
+  background:rgba(255,255,255,0.05);
+  backdrop-filter: blur(12px);
+}
+
+body.dark .info-block,
+body.dark .feature {
+  background:rgba(255,255,255,0.05);
+}
+
+body.dark .section h2 {
+  color:#bbf7d0;
+}
+
+/* ===== HOVER EFFECT ===== */
+.section:hover {
+  transform:translateY(-6px) scale(1.01);
+  box-shadow:0 15px 40px rgba(0,0,0,0.2);
+}
+
+/* ===== SCROLL ANIMATION ===== */
+.reveal {
+  opacity:0;
+  transform:translateY(60px);
+  transition:all 0.8s ease;
+}
+
+.reveal.active {
+  opacity:1;
+  transform:translateY(0);
+}

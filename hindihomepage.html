@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KrishiSetu</title>
+  <link rel="stylesheet" href="hindihomepage.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<body class="light">
+
+<!-- Sidebar -->
+<div class="sidebar" id="sidebar">
+  <h2>KrishiSetu</h2>
+  <p class="username">👤 अभिषेक</p>
+
+  <div class="menu-item" onclick="scrollToSection('home')">होम</div>
+  <div class="menu-item">मेरा प्रोफ़ाइल</div>
+  <div class="menu-item" onclick="scrollToSection('about')">हमारे बारे में</div>
+  <div class="menu-item" onclick="scrollToSection('how')">ऐप कैसे उपयोग करें</div>
+  <div class="menu-item" onclick="scrollToSection('support')">सहायता</div>
+
+  <div class="menu-item logout">लॉगआउट</div>
+</div>
+
+<!-- Main -->
+<div class="main" id="main">
+
+  <!-- Header -->
+  <div class="header">
+    <span class="menu-btn" onclick="toggleSidebar()">☰</span>
+    <div class="logo">🌱 KrishiSetu</div>
+    <button class="btn" id="themeBtn" onclick="toggleTheme()">डार्क</button>
+  </div>
+
+  <!-- IMAGE AREA -->
+  <!-- 👉 यहाँ आप अपनी इमेज जोड़ सकते हैं -->
+
+  <!-- Cards -->
+  <section class="grid" id="home">
+    <div class="card"><i data-lucide="plus-circle"></i><p>फसल जोड़ें</p></div>
+    <div class="card"><i data-lucide="shopping-cart"></i><p>फसल खरीदें</p></div>
+    <div class="card"><i data-lucide="search"></i><p>श्रेणी खोज</p></div>
+    <div class="card"><i data-lucide="calendar"></i><p>एडवांस बुकिंग</p></div>
+  </section>
+
+  <!-- About -->
+  <section id="about" class="section about reveal">
+    <h2>🌱 हमारे बारे में</h2>
+
+    <div class="info-block">
+      <p>हम किसानों को सीधे खरीदारों से जोड़ने वाला प्लेटफॉर्म बना रहे हैं।</p>
+    </div>
+
+    <div class="info-block">
+      <p>हमारा उद्देश्य किसानों की आय बढ़ाना और उचित मूल्य सुनिश्चित करना है।</p>
+    </div>
+
+    <div class="info-block">
+      <p>हम निवेश और फसल खरीद का एक पारदर्शी मॉडल भी प्रदान करते हैं।</p>
+    </div>
+
+    <div class="info-block">
+      <p>हम एक मजबूत और टिकाऊ कृषि प्रणाली बनाना चाहते हैं।</p>
+    </div>
+  </section>
+
+  <!-- Support -->
+  <section id="support" class="section support reveal">
+    <h2>📞 सहायता</h2>
+
+    <div class="info-block">
+      <h3>📧 ईमेल सहायता</h3>
+      <p>
+        विवेक :vivekleader@krishisetu.com<br>
+        तनय: tanay@krishisetu.com<br>
+        उदय: uday@krishisetu.com<br>
+        यश: yash@krishisetu.com<br>
+        सुजल: sujal@krishisetu.com
+      </p>
+    </div>
+
+    <div class="info-block">
+      <h3>📱 फोन सहायता</h3>
+      <p>
+        +91 98765 43210<br>
+        +91 91234 56789
+      </p>
+    </div>
+  </section>
+
+  <!-- How to Use -->
+  <section id="how" class="section how reveal">
+    <h2>⚡ ऐप कैसे उपयोग करें</h2>
+
+    <div class="feature">
+      <h3>🌱 बेचें</h3>
+      <p>किसान अपनी फसल की जानकारी जोड़ सकते हैं।</p>
+    </div>
+
+    <div class="feature">
+      <h3>🔍 खोजें</h3>
+      <p>खरीदार श्रेणी के अनुसार फसल खोज सकते हैं।</p>
+    </div>
+
+    <div class="feature">
+      <h3>📅 बुक करें</h3>
+      <p>एडवांस बुकिंग से फसल सुरक्षित करें।</p>
+    </div>
+
+    <div class="feature">
+      <h3>🛒 खरीदें</h3>
+      <p>सीधे किसानों से खरीदें।</p>
+    </div>
+
+    <div class="feature">
+      <h3>✨ अनुभव</h3>
+      <p>सरल और पारदर्शी अनुभव।</p>
+    </div>
+
+  </section>
+
+</div>
+
+<script src="hindihomepage.js"></script>
+</body>
+</html>
