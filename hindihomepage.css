@@ -129,6 +129,13 @@ body.dark .card {
   box-shadow:0 0 25px rgba(34,197,94,0.4);
 }
 
+a.card,
+a.menu-item {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
 /* ===== SECTIONS ===== */
 .section {
   margin-top:60px;

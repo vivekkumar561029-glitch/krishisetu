@@ -181,6 +181,18 @@ select {
   z-index: 1;
 }
 
+.language-alt-entry {
+  margin-top: 20px;
+  font-size: 0.9rem;
+  position: relative;
+  z-index: 1;
+}
+
+.language-alt-entry a {
+  color: var(--text);
+  font-weight: 600;
+}
+
 .language-button {
   display: inline-flex;
   align-items: center;
@@ -247,6 +259,17 @@ select {
   backdrop-filter: blur(18px);
   position: relative;
   z-index: 1;
+}
+
+.topbar-home-link {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--text);
+  text-decoration: none;
+}
+
+.topbar-home-link:hover {
+  text-decoration: underline;
 }
 
 .theme-toggle {

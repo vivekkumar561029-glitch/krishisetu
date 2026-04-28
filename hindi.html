@@ -15,10 +15,10 @@
     <header class="topbar">
       <div class="brand">
         <div class="brand-mark" aria-hidden="true">&#127806;</div>
-        <div></div>
+        <a href="hindihomepage.html" class="topbar-home-link">होम</a>
       </div>
 
-      <button class="theme-toggle" id="themeToggle" type="button" aria-label="थीम बदलें">
+      <button class="theme-toggle" id="themeToggle" type="button" aria-label="थीम बदलें" onclick="togglePageTheme()">
         <span class="theme-toggle-text">डार्क मोड</span>
       </button>
     </header>
@@ -156,6 +156,26 @@
     </main>
   </div>
 
-  <script src="script.js"></script>
+  <script>
+    function applyPageTheme(theme) {
+      var toggle = document.getElementById("themeToggle");
+      var label = toggle ? toggle.querySelector(".theme-toggle-text") : null;
+      document.documentElement.setAttribute("data-theme", theme);
+      document.body.setAttribute("data-theme", theme);
+      if (label) {
+        label.textContent = theme === "dark" ? "लाइट मोड" : "डार्क मोड";
+      }
+      localStorage.setItem("theme", theme);
+    }
+
+    function togglePageTheme() {
+      var current = document.documentElement.getAttribute("data-theme") || "light";
+      applyPageTheme(current === "dark" ? "light" : "dark");
+    }
+
+    (function initPageTheme() {
+      applyPageTheme(localStorage.getItem("theme") || "light");
+    })();
+  </script>
 </body>
 </html>

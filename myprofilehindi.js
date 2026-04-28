@@ -175,7 +175,7 @@ function initProfilePage() {
   const editButton = document.getElementById("editProfileBtn");
 
   editButton.addEventListener("click", () => {
-    window.location.href = "edit-profile.html";
+    window.location.href = "editmyprofilehindi.html";
   });
 
   setAvatar("profilePhotoView", "profileInitials", profile.profilePhoto, profile.fullName);
@@ -399,10 +399,10 @@ function initEditPage() {
       setTimeout(() => {
         saveBtn.textContent = originalText;
         saveBtn.disabled = false;
-        window.location.href = "profile.html";
+        window.location.href = "profilehindi.html";
       }, 1200);
     } else {
-      window.location.href = "profile.html";
+      window.location.href = "profilehindi.html";
     }
   });
 }

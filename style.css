@@ -93,8 +93,20 @@ body[data-theme="light"] {
 
 .topbar {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
   padding: var(--space-3) clamp(20px, 4vw, 48px) 0;
+}
+
+.report-nav-home {
+  font: 600 0.95rem var(--font-family);
+  color: var(--toggle-text);
+  text-decoration: none;
+}
+
+.report-nav-home:hover {
+  text-decoration: underline;
 }
 
 .theme-toggle {

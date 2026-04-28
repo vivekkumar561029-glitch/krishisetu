@@ -8,12 +8,22 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+  <script>
+    (function () {
+      var ref = document.referrer || "";
+      var fromFlow = /\/(englishhomepage|hindihomepage|index)\.html(?:[?#].*)?$/.test(ref);
+      if (!fromFlow) {
+        window.location.replace("welcome.html");
+      }
+    })();
+  </script>
 </head>
 <body data-theme="dark">
   <div class="page-shell">
     <div class="background-overlay"></div>
 
     <header class="topbar">
+      <a href="hindihomepage.html" class="report-nav-home">होम पर वापस</a>
       <button class="theme-toggle" id="theme-toggle" type="button" aria-label="रंग मोड बदलें" aria-pressed="false">
         <span class="toggle-knob"></span>
         <span class="toggle-label">लाइट मोड</span>
@@ -114,8 +124,88 @@
     const themeToggle = document.getElementById("theme-toggle");
     const toggleLabel = themeToggle.querySelector(".toggle-label");
     const body = document.body;
+    const urlParams = new URLSearchParams(window.location.search);
+    const langFromQuery = urlParams.get("lang");
+    const langFromStorage = localStorage.getItem("language");
+    const currentLanguage =
+      langFromQuery === "en" || (langFromQuery !== "hi" && langFromStorage === "en")
+        ? "en"
+        : "hi";
 
-    const productsByType = {
+    const copy = {
+      hi: {
+        title: "अग्रिम बुकिंग",
+        back: "होम पर वापस",
+        eyebrow: "नई अग्रिम बुकिंग जोड़ें",
+        heading: "अग्रिम बुकिंग",
+        subtitle: "अपनी फसल के लिए अग्रिम धनराशि का अनुरोध करें",
+        sectionLabel: "बुकिंग जानकारी",
+        cardTitle: "अग्रिम बुकिंग",
+        statusBadge: "किसान मित्र फॉर्म",
+        amountLabel: "आवश्यक राशि (₹)",
+        amountPlaceholder: "आवश्यक राशि दर्ज करें",
+        landLabel: "भूमि विवरण",
+        landPlaceholder: "फसल के लिए भूमि का आकार बताएं ताकि वित्तपोषण और उपज का अनुमान लगाया जा सके",
+        unitPlaceholder: "इकाई चुनें",
+        productTypeLabel: "उत्पाद प्रकार",
+        productTypePlaceholder: "उत्पाद प्रकार चुनें",
+        productNameLabel: "उत्पाद का नाम",
+        productNamePlaceholder: "पहले उत्पाद प्रकार चुनें",
+        productNameAfterType: "उत्पाद का नाम चुनें",
+        quantityLabel: "मात्रा",
+        quantityPlaceholder: "स्वचालित गणना की गई मात्रा",
+        priceLabel: "प्रति किग्रा मूल्य (₹)",
+        pricePlaceholder: "प्रति किग्रा मूल्य दर्ज करें",
+        submit: "अनुरोध सबमिट करें",
+        commitmentTitle: "फसल प्रतिबद्धता",
+        marketPricePrefix: "वर्तमान बाजार मूल्य: ₹",
+        commitmentTemplate:
+          "वर्तमान बाजार मूल्य ₹{price}/किग्रा के आधार पर, आप लगभग {qty} किग्रा फसल देने के लिए प्रतिबद्ध होंगे। 50% सुरक्षा बफर सहित, कुल प्रतिबद्धता {buffer} किग्रा हो जाती है।",
+        commitmentExplainer:
+          "फसल प्रतिबद्धता बाजार मूल्य के आधार पर स्वचालित रूप से गणना की जाती है ताकि एक उचित और पारदर्शी सौदा सुनिश्चित हो सके।",
+        fairnessNote:
+          "यदि बाजार मूल्य बढ़ता है, तो खरीदार सुरक्षित रहता है। यदि बाजार मूल्य घटता है, तो खरीदार को लाभ होता है। निश्चित प्रतिबद्धता विश्वास सुनिश्चित करती है।",
+        lightMode: "लाइट मोड",
+        darkMode: "डार्क मोड",
+      },
+      en: {
+        title: "Advance Booking",
+        back: "Back to home",
+        eyebrow: "Add New Advance Booking",
+        heading: "Advance Booking",
+        subtitle: "Request advance funding for your crop",
+        sectionLabel: "Booking Information",
+        cardTitle: "Advance Booking",
+        statusBadge: "Farmer Friendly Form",
+        amountLabel: "Required Amount (₹)",
+        amountPlaceholder: "Enter required amount",
+        landLabel: "Land Details",
+        landPlaceholder: "Enter land size to estimate funding and yield",
+        unitPlaceholder: "Select unit",
+        productTypeLabel: "Product Type",
+        productTypePlaceholder: "Select product type",
+        productNameLabel: "Product Name",
+        productNamePlaceholder: "Select product type first",
+        productNameAfterType: "Select product name",
+        quantityLabel: "Quantity",
+        quantityPlaceholder: "Auto-calculated quantity",
+        priceLabel: "Price per kg (₹)",
+        pricePlaceholder: "Enter price per kg",
+        submit: "Submit Request",
+        commitmentTitle: "Crop Commitment",
+        marketPricePrefix: "Current market price: ₹",
+        commitmentTemplate:
+          "Based on the current market price of ₹{price}/kg, you will be committed to deliver approximately {qty} kg produce. Including a 50% safety buffer, total commitment becomes {buffer} kg.",
+        commitmentExplainer:
+          "Crop commitment is auto-calculated using market price to keep the deal fair and transparent.",
+        fairnessNote:
+          "If market price rises, the buyer is protected. If market price falls, the buyer benefits. Fixed commitment builds trust.",
+        lightMode: "Light Mode",
+        darkMode: "Dark Mode",
+      },
+    };
+
+    const productsByTypeHi = {
       "cereals": ["गेहूँ", "चावल", "मक्का", "जौ", "बाजरा", "ज्वार", "रागी"],
       "pulses": ["चना", "अरहर", "मूँग", "उड़द", "मसूर", "मटर", "राजमा"],
       "oilseeds": ["सरसों", "मूँगफली", "सोयाबीन", "सूरजमुखी", "तिल", "अलसी", "अरंडी"],
@@ -128,6 +218,20 @@
       "flowers": ["गुलाब", "गेंदा", "चमेली", "सूरजमुखी", "लिली", "कमल", "रजनीगंधा"],
       "fodder-crops": ["बरसीम", "नेपियर घास", "अल्फाल्फा", "ज्वार चारा", "मक्का चारा"],
       "herbs": ["तुलसी", "एलोवेरा", "अश्वगंधा", "लेमनग्रास", "पुदीना"]
+    };
+    const productsByTypeEn = {
+      cereals: ["Wheat", "Rice", "Maize", "Barley", "Pearl Millet", "Sorghum", "Ragi"],
+      pulses: ["Chickpea", "Pigeon Pea", "Green Gram", "Black Gram", "Lentil", "Pea", "Kidney Bean"],
+      oilseeds: ["Mustard", "Groundnut", "Soybean", "Sunflower", "Sesame", "Flaxseed", "Castor"],
+      vegetables: ["Potato", "Tomato", "Onion", "Brinjal", "Cabbage", "Cauliflower", "Spinach", "Carrot", "Radish", "Okra", "Bottle Gourd", "Bitter Gourd", "Pumpkin", "Capsicum", "Green Chilli", "Peas", "Beans", "Cucumber"],
+      fruits: ["Mango", "Banana", "Guava", "Apple", "Papaya", "Orange", "Pomegranate", "Grapes", "Watermelon", "Muskmelon", "Litchi", "Pineapple"],
+      spices: ["Turmeric", "Coriander", "Cumin", "Fenugreek", "Red Chilli", "Black Pepper", "Cardamom", "Ginger", "Garlic"],
+      "cash-crops": ["Sugarcane", "Cotton", "Jute", "Tobacco"],
+      "plantation-crops": ["Tea", "Coffee", "Coconut", "Arecanut", "Rubber"],
+      "dry-fruits": ["Almond", "Cashew", "Walnut", "Raisin", "Pistachio"],
+      flowers: ["Rose", "Marigold", "Jasmine", "Sunflower", "Lily", "Lotus", "Tuberose"],
+      "fodder-crops": ["Berseem", "Napier Grass", "Alfalfa", "Sorghum Fodder", "Maize Fodder"],
+      herbs: ["Tulsi", "Aloe Vera", "Ashwagandha", "Lemongrass", "Mint"]
     };
 
     const marketPrices = {
@@ -266,18 +370,25 @@
       const baseQuantity = amount / marketPrice;
       const commitmentQuantity = Math.round(baseQuantity);
       const bufferedCommitment = Math.round(commitmentQuantity * 1.5);
+      const c = copy[currentLanguage];
 
       commitmentBox.classList.remove("is-hidden");
-      quantityInput.value = formatNumber(commitmentQuantity) + " किग्रा";
-      marketPriceText.textContent = "वर्तमान बाजार मूल्य: ₹" + formatNumber(marketPrice) + "/किग्रा";
-      commitmentMessage.textContent = "वर्तमान बाजार मूल्य ₹" + formatNumber(marketPrice) + "/किग्रा के आधार पर, आप लगभग " + formatNumber(commitmentQuantity) + " किग्रा फसल देने के लिए प्रतिबद्ध होंगे। 50% सुरक्षा बफर सहित, कुल प्रतिबद्धता " + formatNumber(bufferedCommitment) + " किग्रा हो जाती है।";
+      quantityInput.value =
+        currentLanguage === "en"
+          ? formatNumber(commitmentQuantity) + " kg"
+          : formatNumber(commitmentQuantity) + " किग्रा";
+      marketPriceText.textContent = c.marketPricePrefix + formatNumber(marketPrice) + "/kg";
+      commitmentMessage.textContent = c.commitmentTemplate
+        .replace("{price}", formatNumber(marketPrice))
+        .replace("{qty}", formatNumber(commitmentQuantity))
+        .replace("{buffer}", formatNumber(bufferedCommitment));
     }
 
     function setTheme(theme) {
       const isLight = theme === "light";
       body.setAttribute("data-theme", theme);
       themeToggle.setAttribute("aria-pressed", String(isLight));
-      toggleLabel.textContent = isLight ? "डार्क मोड" : "लाइट मोड";
+      toggleLabel.textContent = isLight ? copy[currentLanguage].darkMode : copy[currentLanguage].lightMode;
     }
 
     function resetProductName(placeholder) {
@@ -291,16 +402,19 @@
 
     productType.addEventListener("change", function () {
       const selectedType = this.value;
-      const items = productsByType[selectedType];
+      const items =
+        currentLanguage === "en"
+          ? productsByTypeEn[selectedType]
+          : productsByTypeHi[selectedType];
 
       if (!selectedType || !items) {
         productName.disabled = true;
-        resetProductName("पहले उत्पाद प्रकार चुनें");
+        resetProductName(copy[currentLanguage].productNamePlaceholder);
         return;
       }
 
       productName.disabled = false;
-      resetProductName("उत्पाद का नाम चुनें");
+      resetProductName(copy[currentLanguage].productNameAfterType);
 
       items.forEach(function (item) {
         const option = document.createElement("option");
@@ -321,6 +435,101 @@
       setTheme(nextTheme);
     });
 
+    function applyLanguage() {
+      const c = copy[currentLanguage];
+      document.documentElement.lang = currentLanguage === "en" ? "en" : "hi";
+      document.title = c.title;
+      document.querySelector(".report-nav-home").textContent = c.back;
+      document.querySelector(".hero-copy .eyebrow").textContent = c.eyebrow;
+      document.querySelector(".hero-copy h1").textContent = c.heading;
+      document.querySelector(".hero-subtitle").textContent = c.subtitle;
+      document.querySelector(".hero-copy").setAttribute(
+        "aria-label",
+        currentLanguage === "en" ? "Advance booking overview" : "अग्रिम बुकिंग अवलोकन"
+      );
+      document.querySelector(".section-label").textContent = c.sectionLabel;
+      document.getElementById("booking-title").textContent = c.cardTitle;
+      document.querySelector(".status-badge").textContent = c.statusBadge;
+      document.querySelector('label[for="amount"]').textContent = c.amountLabel;
+      document.getElementById("amount").placeholder = c.amountPlaceholder;
+      document.querySelector('label[for="land-size"]').textContent = c.landLabel;
+      document.getElementById("land-size").placeholder = c.landPlaceholder;
+      document.querySelector("#land-unit option[value='']").textContent = c.unitPlaceholder;
+      const unitLabels =
+        currentLanguage === "en"
+          ? {
+              hectare: "Hectare",
+              acre: "Acre",
+              bigha: "Bigha",
+              cent: "Cent",
+              guntha: "Guntha",
+              katha: "Katha",
+              "sq-meter": "Square Meter",
+            }
+          : {
+              hectare: "हेक्टेयर",
+              acre: "एकड़",
+              bigha: "बीघा",
+              cent: "सेंट",
+              guntha: "गुंठा",
+              katha: "कट्ठा",
+              "sq-meter": "वर्ग मीटर",
+            };
+      Object.keys(unitLabels).forEach(function (value) {
+        const opt = document.querySelector("#land-unit option[value='" + value + "']");
+        if (opt) opt.textContent = unitLabels[value];
+      });
+      document.querySelector('label[for="product-type"]').textContent = c.productTypeLabel;
+      document.querySelector("#product-type option[value='']").textContent = c.productTypePlaceholder;
+      const typeLabels =
+        currentLanguage === "en"
+          ? {
+              cereals: "Cereals",
+              pulses: "Pulses",
+              oilseeds: "Oilseeds",
+              vegetables: "Vegetables",
+              fruits: "Fruits",
+              spices: "Spices",
+              "cash-crops": "Cash Crops",
+              "plantation-crops": "Plantation Crops",
+              "dry-fruits": "Dry Fruits",
+              flowers: "Flowers",
+              "fodder-crops": "Fodder Crops",
+              herbs: "Herbs / Medicinal Crops",
+            }
+          : {
+              cereals: "अनाज",
+              pulses: "दालें",
+              oilseeds: "तिलहन",
+              vegetables: "सब्जियाँ",
+              fruits: "फल",
+              spices: "मसाले",
+              "cash-crops": "नकदी फसलें",
+              "plantation-crops": "बागान फसलें",
+              "dry-fruits": "सूखे मेवे",
+              flowers: "फूल",
+              "fodder-crops": "चारा फसलें",
+              herbs: "जड़ी-बूटियाँ / औषधीय फसलें",
+            };
+      Object.keys(typeLabels).forEach(function (value) {
+        const opt = document.querySelector("#product-type option[value='" + value + "']");
+        if (opt) opt.textContent = typeLabels[value];
+      });
+      document.querySelector('label[for="product-name"]').textContent = c.productNameLabel;
+      document.querySelector('label[for="quantity"]').textContent = c.quantityLabel;
+      document.getElementById("quantity").placeholder = c.quantityPlaceholder;
+      document.querySelector('label[for="price"]').textContent = c.priceLabel;
+      document.getElementById("price").placeholder = c.pricePlaceholder;
+      document.querySelector(".submit-button").textContent = c.submit;
+      document.querySelector(".commitment-title").textContent = c.commitmentTitle;
+      document.querySelector(".commitment-explainer").textContent = c.commitmentExplainer;
+      document.querySelector(".fairness-note").textContent = c.fairnessNote;
+      resetProductName(c.productNamePlaceholder);
+      document.querySelector(".report-nav-home").href =
+        currentLanguage === "en" ? "englishhomepage.html" : "hindihomepage.html";
+    }
+
+    applyLanguage();
     setTheme("dark");
     updateCommitmentBox();
   </script>

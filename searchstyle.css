@@ -33,8 +33,25 @@ body.light::before {
 .topbar {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   padding: 20px 40px;
   color: rgb(9, 52, 29);
+}
+
+.topbar-start {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.search-home-link {
+  font-weight: 600;
+  color: inherit;
+  text-decoration: none;
+}
+
+.search-home-link:hover {
+  text-decoration: underline;
 }
 body.dark .topbar {
   color: #f1f1f1;

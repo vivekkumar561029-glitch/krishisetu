@@ -136,6 +136,23 @@ body.dark-mode .buy-card {
   backdrop-filter: blur(12px);
 }
 
+.buy-dash-nav {
+  position: relative;
+  z-index: 2;
+  margin-bottom: 6px;
+  font-size: 0.9rem;
+}
+
+.buy-dash-nav a {
+  color: var(--primary-color);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.buy-dash-nav a:hover {
+  text-decoration: underline;
+}
+
 .theme-toggle-row {
   position: relative;
   z-index: 2;

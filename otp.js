@@ -129,7 +129,9 @@ verifyButton.addEventListener("click", () => {
     if (modalHideTimerId) window.clearTimeout(modalHideTimerId);
     if (redirectTimerId) window.clearTimeout(redirectTimerId);
     modalHideTimerId = window.setTimeout(() => { hideSuccessModal(); }, 280);
-    redirectTimerId = window.setTimeout(() => { window.location.href = "home.html"; }, 400);
+    const dashboard =
+      localStorage.getItem("language") === "hi" ? "hindihomepage.html" : "englishhomepage.html";
+    redirectTimerId = window.setTimeout(() => { window.location.href = dashboard; }, 400);
     return;
   }
 

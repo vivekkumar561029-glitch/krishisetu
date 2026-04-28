@@ -14,10 +14,10 @@
   <div class="app-shell">
     <header class="topbar">
       <div class="brand">
-        <div></div>
+        <a href="englishhomepage.html" class="topbar-home-link">Home</a>
       </div>
 
-      <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle theme">
+      <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle theme" onclick="togglePageTheme()">
         <span class="theme-toggle-text">Dark Mode</span>
       </button>
     </header>
@@ -155,6 +155,26 @@
     </main>
   </div>
 
-  <script src="script.js"></script>
+  <script>
+    function applyPageTheme(theme) {
+      var toggle = document.getElementById("themeToggle");
+      var label = toggle ? toggle.querySelector(".theme-toggle-text") : null;
+      document.documentElement.setAttribute("data-theme", theme);
+      document.body.setAttribute("data-theme", theme);
+      if (label) {
+        label.textContent = theme === "dark" ? "Light Mode" : "Dark Mode";
+      }
+      localStorage.setItem("theme", theme);
+    }
+
+    function togglePageTheme() {
+      var current = document.documentElement.getAttribute("data-theme") || "light";
+      applyPageTheme(current === "dark" ? "light" : "dark");
+    }
+
+    (function initPageTheme() {
+      applyPageTheme(localStorage.getItem("theme") || "light");
+    })();
+  </script>
 </body>
 </html>

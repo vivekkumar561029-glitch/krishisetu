@@ -12,6 +12,9 @@
 <body>
   <main class="page-shell">
     <section class="buy-card">
+      <p class="buy-dash-nav">
+        <a id="dash-home-link" href="englishhomepage.html">Home</a>
+      </p>
       <div class="theme-toggle-row">
         <button type="button" id="themeToggle" class="theme-toggle" aria-label="Toggle color theme" aria-pressed="false">🌙</button>
       </div>
@@ -81,6 +84,17 @@
     </section>
   </main>
 
+  <script>
+    (function () {
+      var el = document.getElementById("dash-home-link");
+      if (el) {
+        el.href =
+          localStorage.getItem("language") === "hi"
+            ? "hindihomepage.html"
+            : "englishhomepage.html";
+      }
+    })();
+  </script>
   <script src="buy-product.js"></script>
 </body>
 </html>
